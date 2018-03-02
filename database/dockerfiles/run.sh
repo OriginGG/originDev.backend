@@ -7,7 +7,6 @@ postgraphile \
 	--port 5000 \
 	--host 0.0.0.0 \
     --default-role origin_anonymous \
-    --jwt-secret bbo9Q4jsIkfQ1gkpolQAKLXO4WZ-s3SEcvo3gHwfxCEM_IBSisDWzlwcmDKjVfH0 \
+    --jwt-secret OPZY0VVSCAQ3MBFYN9WI04UVNUA7ANU5LQBDQNW2D5USXLZWN3ML7VZCACPF0ZD0 \
     --token origin.jwt_token \
-    -o \
-    --secret bbo9Q4jsIkfQ1gkpolQAKLXO4WZ-s3SEcvo3gHwfxCEM_IBSisDWzlwcmDKjVfH0
+    -o 
