@@ -15,7 +15,7 @@ services:
         DB_GRAPHIQL_PATH: "/graphiql"
         DB_SCHEMA: "origin"
         PGUSER: origin
-        PGPASSWORD: xyz
+        PGPASSWORD: allegro1234
         PGHOST: origingg.cjdraitfnk0j.us-east-1.rds.amazonaws.com
         PGDATABASE: originGG
         PGJWTSECRET: udsxlF711HCTcrl4hRLgsH1PIcbidZmqy7urJGef0aMRPzrWoTjAV9DOHt1rZao2
