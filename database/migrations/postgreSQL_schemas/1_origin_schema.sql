@@ -13,7 +13,7 @@ create extension if not exists "pgcrypto";
 
 create type origin.jwt_token as (
   role text,
-  user_id integer
+  person_id integer
 );
 
 DO $$
@@ -44,6 +44,6 @@ grant usage on schema origin to origin_anonymous, origin_user, origin_admin;
 -- All users can view  person file (this is only temporary to do some testing!!)
 
 
-grant select, insert, update, delete on table origin.user to origin_anonymous, origin_user, origin_admin;
+grant select, insert, update, delete on table origin.person to origin_anonymous, origin_user, origin_admin;
 
 commit;
