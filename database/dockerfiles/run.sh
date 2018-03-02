@@ -1,7 +1,7 @@
 #!/bin/sh
 
 
-postgraphql \
+postgraphile \
 	-c postgres://origin_postgraphql:allegro1234@origingg.cjdraitfnk0j.us-east-1.rds.amazonaws.com:5432/originGG \
 	-s origin \
 	--port 5000 \
