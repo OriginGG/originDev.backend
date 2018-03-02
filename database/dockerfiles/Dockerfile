@@ -3,7 +3,7 @@ RUN apk update && \
     apk add postgresql-client && \
     apk add postgresql && \
     
-    npm install -g postgraphile
+    npm install -g postgraphql
 
 EXPOSE 5000
 USER nobody
