@@ -49,5 +49,4 @@ postgraphql \
     --default-role $PGDEFAULTROLE \
     --jwt-secret $PGJWTSECRET \
     --token $PGTOKEN \
-    -o \
-    --secret $PGSECRET
+    -o 
