@@ -1,4 +1,7 @@
-FROM node:8-alpine
+FROM node:alpine
+RUN apk update && \
+    apk add postgresql-client && \
+    apk add postgresql && \FROM node:8-alpine
 
 RUN npm install -g postgraphile
 
