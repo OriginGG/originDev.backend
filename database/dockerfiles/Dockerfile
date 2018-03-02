@@ -1,10 +1,7 @@
 FROM node:alpine
 MAINTAINER E Rasche <hxr@hx42.org>
 
-RUN apk update && \
-    apk add postgresql-client && \
-    apk add postgresql && \
-    
+RUN apk update &&   
     npm install -g postgraphile
 USER nobody
 
