@@ -14,7 +14,7 @@ services:
         #DB_DEFAULT_ROLE: postgres
         DB_GRAPHIQL_PATH: "/graphiql"
         DB_SCHEMA: "origin"
-        PGUSER: origin
+        PGUSER: origin_postgraphql
         PGPASSWORD: allegro1234
         PGHOST: origingg.cjdraitfnk0j.us-east-1.rds.amazonaws.com
         PGDATABASE: originGG
