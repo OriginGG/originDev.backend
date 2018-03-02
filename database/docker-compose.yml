@@ -1,0 +1,27 @@
+version: "3"
+
+
+services:
+  postgraphql:
+    build: ./dockerfiles
+    container_name: postgraphql
+    image: erasche/postgraphql:latest
+    ports:
+        - "5000:5000"
+    expose:
+        - "5000"
+    environment:
+        #DB_DEFAULT_ROLE: postgres
+        DB_GRAPHIQL_PATH: "/graphiql"
+        PG_SECRET: "deadbeefcafe"
+        DB_SCHEMA: "origin"
+        PGUSER: origin
+        PGPASSWORD: xyz
+        PGHOST: origingg.cjdraitfnk0j.us-east-1.rds.amazonaws.com
+        PGDATABASE: originGG
+        PGJWTSECRET: udsxlF711HCTcrl4hRLgsH1PIcbidZmqy7urJGef0aMRPzrWoTjAV9DOHt1rZao2
+        PGTOKEN: origin.jwt_token
+        PGDEFAULTROLE: origin_anonymous
+        PGPORT: 5432
+        PGSECRET: udsxlF711HCTcrl4hRLgsH1PIcbidZmqy7urJGef0aMRPzrWoTjAV9DOHt1rZao2
+        GQL_PORT: 5000
