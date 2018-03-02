@@ -1,12 +1,8 @@
-FROM node:alpine
-MAINTAINER E Rasche <hxr@hx42.org>
+FROM node:8-alpine
 
-RUN apk update && \
-    apk add postgresql-client && \
-    apk add postgresql && \
-    
-    npm install -g postgraphql
-USER nobody
+RUN npm install -g postgraphile
+
+EXPOSE 5000
 
 ADD run.sh /run.sh
 ENTRYPOINT ["/run.sh"]

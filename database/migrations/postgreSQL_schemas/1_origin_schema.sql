@@ -11,6 +11,10 @@ begin;
 create extension if not exists "pgcrypto";
 -- create a function to see if person already exists.
 
+create type origin.jwt_token as (
+  role text,
+  user_id integer
+);
 
 DO $$
 BEGIN
