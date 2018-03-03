@@ -9,7 +9,7 @@ docker rm $(docker ps -a -q)
 docker rmi $(docker images --quiet --filter "dangling=true")
 docker build -t postgraphql_image ./dockerfiles
 docker run --net=backend --name postgraphql --restart=always ${detached} -p 5000:5000 \
--e VIRTUAL_HOST=api-ql-dev.influence-it.com \
+-e VIRTUAL_HOST=api.originapi.com \
 -e DB_GRAPHIQL_PATH="/graphiql" \
 -e PG_SECRET="deadbeefcafe" \
 -e DB_SCHEMA="origin" \
