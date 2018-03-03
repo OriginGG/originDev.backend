@@ -2,21 +2,21 @@ version: "3"
 
 
 services:
- nginx-proxy:
-      image: jwilder/nginx-proxy
-      container_name: nginx-proxy
-      networks:
-            - default
-            - service-proxy
-      depends_on:
-      - hub
-      - postgraphql
-      ports:
-        - "80:80"
-        - "443:443"
-      volumes:
-        - /var/run/docker.sock:/tmp/docker.sock:ro
-        - ./bootstrap/certs:/etc/nginx/certs
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    container_name: nginx-proxy
+    networks:
+          - default
+          - service-proxy
+    depends_on:
+    - hub
+    - postgraphql
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./bootstrap/certs:/etc/nginx/certs
   postgraphql:
     build: ./dockerfiles
     container_name: postgraphql
