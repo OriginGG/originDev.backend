@@ -8,9 +8,6 @@ services:
     networks:
           - default
           - service-proxy
-    depends_on:
-    - hub
-    - postgraphql
     ports:
       - "80:80"
       - "443:443"
