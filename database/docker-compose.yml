@@ -7,7 +7,6 @@ services:
     container_name: nginx-proxy
     networks:
           - default
-          - service-proxy
     ports:
       - "80:80"
       - "443:443"
