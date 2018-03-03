@@ -36,10 +36,6 @@ if [ ! -z "$CORS" ]; then
 	ARGS="$ARGS --cors"
 fi
 
-# Sleep up to 60 seconds waiting for DB to be ready;
-while ! pg_isready -t 5; do
-	sleep 1;
-done
 
 postgraphile \
 	-c postgres://$PGUSER:$PGPASSWORD@$PGHOST:$PGPORT/$PGDATABASE \
