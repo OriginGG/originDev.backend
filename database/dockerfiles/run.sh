@@ -37,7 +37,7 @@ if [ ! -z "$CORS" ]; then
 fi
 
 
-postgraphile \
+postgraphql \
 	-c postgres://$PGUSER:$PGPASSWORD@$PGHOST:$PGPORT/$PGDATABASE \
 	-s $DB_SCHEMA \
 	--port $GQL_PORT \
