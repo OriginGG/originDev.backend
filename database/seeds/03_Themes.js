@@ -1,7 +1,6 @@
-let createRecord = (knex, o,  f, l) => {
+let createRecord = (knex,  f, l) => {
     const td = JSON.stringify(l);
     return knex('origin.themes').insert({
-        organisation: o,
         theme_name: f,
         theme_data: td
     });
@@ -15,7 +14,7 @@ exports.seed = function seed(knex, Promise) {
         .then(() => {
             let records = [];
             records.push(
-                createRecord(knex, 'origin', 'origin', {
+                createRecord(knex, 'origin', {
                     colorPrimary: 'green',
                     login_contentWidth: '840px',
                     login_contentHeight: '300px',

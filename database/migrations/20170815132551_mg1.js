@@ -6,7 +6,7 @@ exports.up = function(knex, Promise) {
             .createTable('organisation_account', table => {
                 table.primary('sub_domain');
                 table.timestamps(true, true);
-                table.string('sub_domain');
+                table.string('sub_domain').unique();
                 table.string('name');
                 table.string('description');
                 table.string('fb_link');
@@ -34,12 +34,9 @@ exports.up = function(knex, Promise) {
             table.boolean('admin_user').defaultTo(false);
         }),
       knex.schema.withSchema('origin').createTable('themes', table => {
-            table.primary('theme_name')
-            table
-                .string('organisation')
-                .references('sub_domain')
-                .inTable('origin.organisation_account');
-            table.string('theme_name');
+          table.string('theme_name').primary().unique()
+              .references('sub_domain')
+              .inTable('origin.organisation_account');
             table.text('theme_data');
             table.timestamps(true, true);
         })

@@ -9,7 +9,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "express": "^4.16.2",
     "knex": "^0.14.4",
-    "pg": "^7.4.1"
+    "pg": "^7.4.1",
+    "postgraphql": "^3.5.6"
   }
 }
