@@ -15,11 +15,11 @@ module.exports = {
         },
         migrations: {
             tableName: 'knex_migrations',
-            directory: './database/migrations'
+            directory: './migrations'
         },
         seeds: {
             tableName: 'knex_seeds',
-            directory: './database/seeds'
+            directory: './seeds'
         }
     }
 

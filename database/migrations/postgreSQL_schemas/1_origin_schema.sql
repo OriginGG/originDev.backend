@@ -11,10 +11,9 @@ begin;
 create extension if not exists "pgcrypto";
 -- create a function to see if person already exists.
 
-create type origin.jwt_token as (
-  role text,
-  person_id integer
-);
+
+
+
 
 DO $$
 BEGIN
@@ -32,6 +31,58 @@ BEGIN
 END
 $$;
 
+create type origin.jwt_token as (
+  role text,
+  id integer,
+  organisation text
+);
+
+create type auth_account as (
+    id integer,
+    admin_user boolean,
+    password_hash text,
+    email text,
+    organisation text
+);
+
+create type origin.auth_payload as (
+  jwt_token origin.jwt_token,
+  user_id integer,
+  organisation text,
+  is_admin boolean
+);
+create function origin.hash_password(
+  password text
+) returns text as $$
+begin
+  return crypt(password, gen_salt('bf'));
+end;
+$$ language plpgsql strict security definer;
+
+create function origin.authenticate(
+  email text,
+  password text
+) returns origin.auth_payload as $$
+declare
+  account auth_account;
+begin
+  select a.id, a.admin_user, a.password_hash, a.email, a.organisation into account 
+  from origin.users as a
+  where a.email = $1;
+  if account.password_hash = crypt(password, account.password_hash) then
+		if account.admin_user = false then
+    	return (('origin_user', account.id, account.organisation)::origin.jwt_token, account.id, account.organisation, false);
+		else 
+    	return (('origin_admin', account.id, account.organisation)::origin.jwt_token,  account.id, account.organisation, true);
+		end if;
+	else
+    return null;
+  end if;
+end;
+$$ language plpgsql strict security definer;
+
+
+
 
 -- Allows Schema Useage for all users
 
@@ -40,10 +91,16 @@ grant origin_user to origin_postgraphql;
 grant origin_anonymous to origin_postgraphql;
 
 grant usage on schema origin to origin_anonymous, origin_user, origin_admin;
+grant select, insert, update, delete on table origin.organisation_account to origin_anonymous, origin_user, origin_admin;
 
 -- All users can view  person file (this is only temporary to do some testing!!)
 
 
-grant select, insert, update, delete on table origin.person to origin_anonymous, origin_user, origin_admin;
+grant select, insert, update, delete on table origin.users to origin_anonymous, origin_user, origin_admin;
+grant select, insert, update, delete on table origin.themes to origin_anonymous, origin_user, origin_admin;
+
+grant execute on function origin.authenticate(text, text) to origin_anonymous, origin_user;
+grant execute on function origin.hash_password(text) to origin_anonymous, origin_user;
+
 
 commit;
