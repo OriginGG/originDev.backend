@@ -6,9 +6,6 @@ const config = require('./config/index');
 
 const app = express();
 
-
-console.log(config);
-
 app.use(postgraphql(config.postgraphile.host, config.postgraphile.schema_name, {
     pgDefaultRole: config.postgraphile.default_role,
     enableCors: true,
