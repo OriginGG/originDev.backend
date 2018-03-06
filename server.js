@@ -14,4 +14,4 @@ app.use(postgraphql(config.postgraphile.host, config.postgraphile.schema_name, {
     graphiql: config.postgraphile.graphiql
 }));
 
-app.listen(process.env.PORT || 3001);
+app.listen(config.server.port || 3001);

@@ -1,6 +1,6 @@
 {
     "server": {
-        "port": 3000
+        "port": 3001
     },
     "postgraphile": {
         "host": "postgres://origin_postgraphql:allegro1234@origingg.cjdraitfnk0j.us-east-1.rds.amazonaws.com:5432/originGG",
