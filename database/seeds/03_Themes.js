@@ -25,6 +25,18 @@ exports.seed = function seed(knex, Promise) {
                     }
                 })
             );
+            records.push(
+                createRecord(knex, 'ascendant', {
+                    colorPrimary: 'green',
+                    login_contentWidth: '840px',
+                    login_contentHeight: '300px',
+                    card_contentWidth: '640px',
+                    card_contentHeight: '800px',
+                    user_styles: {
+                        user_test_width: '200px'
+                    }
+                })
+            );
             return Promise.all(records);
         })
     

@@ -34,6 +34,21 @@ exports.seed = function seed(knex, Promise) {
                     'origin'
                 )
             );
+            records.push(
+                createRecord(
+                    knex,
+                    'Ascendant',
+                    'ascendant',
+                    'Desc',
+                    'http://',
+                    'http://',
+                    'https://twitter.com/AscendantLLC',
+                    'http://',
+                    'http://',
+                    '#0a9ab4',
+                    'AscendantLLC'
+                )
+            );
             return Promise.all(records);
         });
 };
