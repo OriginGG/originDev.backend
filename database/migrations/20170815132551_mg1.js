@@ -1,4 +1,4 @@
-exports.up = function(knex, Promise) {
+exports.up = function (knex, Promise) {
     return Promise.all([
         knex.raw('create schema origin;'),
         knex.schema
@@ -33,16 +33,28 @@ exports.up = function(knex, Promise) {
                 .inTable('origin.organisation_account');
             table.boolean('admin_user').defaultTo(false);
         }),
-      knex.schema.withSchema('origin').createTable('themes', table => {
-          table.string('theme_name').primary().unique()
-              .references('sub_domain')
-              .inTable('origin.organisation_account');
+        knex.schema.withSchema('origin').createTable('themes', table => {
+            table.string('theme_name').primary().unique()
+                .references('sub_domain')
+                .inTable('origin.organisation_account');
             table.text('theme_data');
             table.timestamps(true, true);
+        }),
+        knex.schema.withSchema('origin').createTable('recentmatches', table => {
+            table.increments();
+            table
+                .string('organisation')
+                .references('sub_domain')
+                .inTable('origin.organisation_account');
+            table.string('opposite_team_name');
+            table.string('opposite_team_logo');
+            table.string('game_name');
+            table.string('game_logo');
+            table.string('score');
         })
     ]);
 };
 
-exports.down = function(knex, Promise) {
+exports.down = function (knex, Promise) {
     return Promise.all([knex.schema.withSchema('origin').dropTable('user')]);
 };
