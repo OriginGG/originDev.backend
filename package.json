@@ -9,9 +9,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.2",
     "express": "^4.16.2",
+    "graphql-tag": "^2.8.0",
     "knex": "^0.14.4",
     "pg": "^7.4.1",
-    "postgraphql": "^3.5.6"
+    "postgraphql": "^3.5.6",
+    "superagent": "^3.8.2"
   }
 }

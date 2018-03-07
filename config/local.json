@@ -8,6 +8,11 @@
         "schema_name": "origin",
         "jwt_secret": "bbo9Q4jsIkfQ1gkpolQAKLXO4WZ-s3SEcvo3gHwfxCEM_IBSisDWzlwcmDKjVfH0",
         "jwt_token" : "origin.jwt_token",
-        "graphiql": true
+        "graphiql": true,
+        "port" : 5000
+    },
+    "graphql": {
+        "graphql_url": "http:localhost:5000/graphql",
+        "graphiql_url": "http:localhost:5000/graphiql"
     }
 }
