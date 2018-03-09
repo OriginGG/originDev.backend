@@ -99,9 +99,15 @@ grant select, insert, update, delete on table origin.organisation_account to ori
 grant select, insert, update, delete on table origin.users to origin_anonymous, origin_user, origin_admin;
 grant select, insert, update, delete on table origin.themes to origin_anonymous, origin_user, origin_admin;
 grant select, insert, update, delete on table origin.recentmatches to origin_anonymous, origin_user, origin_admin;
+grant select, insert, update, delete on table origin.blogs to origin_anonymous, origin_user, origin_admin;
 
 grant execute on function origin.authenticate(text, text) to origin_anonymous, origin_user;
 grant execute on function origin.hash_password(text) to origin_anonymous, origin_user;
 
+
+alter table origin.blogs enable row level security;
+
+create policy blogs_security on origin.blogs to origin_user,  origin_admin
+  using(organisation = current_setting('jwt.claims.organisation')::text);
 
 commit;

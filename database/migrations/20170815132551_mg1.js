@@ -51,6 +51,20 @@ exports.up = function (knex, Promise) {
             table.string('game_name');
             table.string('game_logo');
             table.string('score');
+            table.timestamps(true, true);
+
+        }),
+        knex.schema.withSchema('origin').createTable('blogs', table => {
+            table.increments();
+            table
+                .string('organisation')
+                .references('sub_domain')
+                .inTable('origin.organisation_account');
+            table.string('blog_title');
+            table.text('blog_content');
+            table.string('blog_media');
+            table.timestamps(true, true);
+            table.boolean('featured').defaultTo(false);
         })
     ]);
 };
