@@ -25,7 +25,7 @@ exports.seed = function seed(knex, Promise) {
                     'Walker',
                     'stefan.walker@gmail.com',
                     '$2a$06$UEwBzEmi9y8VdLL3rj2t/erTbj9HZmEwG/7R1qlOz2D/I0zDfGjsG',
-                    'origin',
+                    null,
                     true
                 )
             );

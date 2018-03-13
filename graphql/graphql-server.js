@@ -10,7 +10,11 @@ app.use(postgraphql(config.postgraphile.host, config.postgraphile.schema_name, {
     enableCors: true,
     jwtSecret: config.postgraphile.jwt_secret,
     jwtPgTypeIdentifier: config.postgraphile.jwt_token,
-    graphiql: config.postgraphile.graphiql
+    graphiql: config.postgraphile.graphiql,
+    jwtVerifyOptions: {
+        ignoreExpiration: true
+
+    }
 }));
 
 app.listen(config.postgraphile.port || 5000);

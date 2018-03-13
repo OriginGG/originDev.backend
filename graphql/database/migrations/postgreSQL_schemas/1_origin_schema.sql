@@ -100,14 +100,29 @@ grant select, insert, update, delete on table origin.users to origin_anonymous, 
 grant select, insert, update, delete on table origin.themes to origin_anonymous, origin_user, origin_admin;
 grant select, insert, update, delete on table origin.recentmatches to origin_anonymous, origin_user, origin_admin;
 grant select, insert, update, delete on table origin.blogs to origin_anonymous, origin_user, origin_admin;
+grant select, insert, update, delete on table origin.youtube_channels to origin_anonymous, origin_user, origin_admin;
+grant select, insert, update, delete on table origin.twitch_channels to origin_anonymous, origin_user, origin_admin;
+grant select, insert, update, delete on table origin.sponsors to origin_anonymous, origin_user, origin_admin;
 
 grant execute on function origin.authenticate(text, text) to origin_anonymous, origin_user;
 grant execute on function origin.hash_password(text) to origin_anonymous, origin_user;
 
 
 alter table origin.blogs enable row level security;
+alter table origin.youtube_channels enable row level security;
+alter table origin.twitch_channels enable row level security;
+alter table origin.sponsors enable row level security;
 
 create policy blogs_security on origin.blogs to origin_user,  origin_admin
+  using(organisation = current_setting('jwt.claims.organisation')::text);
+
+create policy youtube_channels_security on origin.youtube_channels to origin_user,  origin_admin
+  using(organisation = current_setting('jwt.claims.organisation')::text);
+
+create policy twitch_channels_security on origin.twitch_channels to origin_user,  origin_admin
+  using(organisation = current_setting('jwt.claims.organisation')::text);
+
+create policy sponsors_security on origin.sponsors to origin_user,  origin_admin
   using(organisation = current_setting('jwt.claims.organisation')::text);
 
 commit;

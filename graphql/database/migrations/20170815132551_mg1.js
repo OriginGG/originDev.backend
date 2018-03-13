@@ -37,7 +37,8 @@ exports.up = function (knex, Promise) {
             table.string('theme_name').primary().unique()
                 .references('sub_domain')
                 .inTable('origin.organisation_account');
-            table.text('theme_data');
+            table.jsonb('theme_data');
+            table.jsonb('theme_structure');
             table.timestamps(true, true);
         }),
         knex.schema.withSchema('origin').createTable('recentmatches', table => {
@@ -65,6 +66,34 @@ exports.up = function (knex, Promise) {
             table.string('blog_media');
             table.timestamps(true, true);
             table.boolean('featured').defaultTo(false);
+        }),
+        knex.schema.withSchema('origin').createTable('twitch_channels', table => {
+            table.increments();
+            table
+                .string('organisation')
+                .references('sub_domain')
+                .inTable('origin.organisation_account');
+            table.string('channel_name');
+            table.timestamps(true, true);
+        }),
+        knex.schema.withSchema('origin').createTable('youtube_channels', table => {
+            table.increments();
+            table
+                .string('organisation')
+                .references('sub_domain')
+                .inTable('origin.organisation_account');
+            table.string('channel_name');
+            table.timestamps(true, true);
+        }),
+        knex.schema.withSchema('origin').createTable('sponsors', table => {
+            table.increments();
+            table
+                .string('organisation')
+                .references('sub_domain')
+                .inTable('origin.organisation_account');
+            table.string('image_url');
+            table.string('link_url');
+            table.timestamps(true, true);
         })
     ]);
 };
