@@ -16,3 +16,4 @@
 const Route = use('Route')
 
 Route.on('/').render('welcome')
+Route.post('upload/:folder', 'FileController.upload')

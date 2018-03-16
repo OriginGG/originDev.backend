@@ -1,11 +1,11 @@
 const express = require('express');
-const { postgraphql } = require('postgraphql');
+const { postgraphile } = require('postgraphile');
 const config = require('./config/index');
 
 const app = express();
 
 
-app.use(postgraphql(config.postgraphile.host, config.postgraphile.schema_name, {
+app.use(postgraphile(config.postgraphile.host, config.postgraphile.schema_name, {
     pgDefaultRole: config.postgraphile.default_role,
     enableCors: true,
     jwtSecret: config.postgraphile.jwt_secret,
@@ -14,7 +14,9 @@ app.use(postgraphql(config.postgraphile.host, config.postgraphile.schema_name, {
     jwtVerifyOptions: {
         ignoreExpiration: true
 
-    }
+    },
+    showErrorStack: true,
+    extendedErrors: ["hint", "detail", "errcode", "where"]
 }));
 
-app.listen(config.postgraphile.port || 5000);
+app.listen(config.postgraphile.port || 5000, '0.0.0.0');

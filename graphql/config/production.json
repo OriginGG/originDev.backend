@@ -4,8 +4,8 @@
         "default_role": "origin_anonymous",
         "schema_name": "origin",
         "jwt_secret": "bbo9Q4jsIkfQ1gkpolQAKLXO4WZ-s3SEcvo3gHwfxCEM_IBSisDWzlwcmDKjVfH0",
-        "jwt_token" : "origin.jwt_token",
+        "jwt_token": "origin.jwt_token",
         "graphiql": true,
-        "port" : 5000
+        "port": 5000
     }
 }

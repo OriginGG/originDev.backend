@@ -25,7 +25,8 @@
     "@adonisjs/ignitor": "^2.0.5",
     "@adonisjs/lucid": "^5.0.2",
     "@adonisjs/session": "^1.0.20",
-    "@adonisjs/shield": "^1.0.6"
+    "@adonisjs/shield": "^1.0.6",
+    "aws-sdk": "^2.208.0"
   },
   "devDependencies": {},
   "autoload": {

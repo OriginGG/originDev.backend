@@ -1,18 +1,11 @@
 {
-    "server": {
-        "port": 3001
-    },
     "postgraphile": {
-        "host": "postgres://origin_postgraphql:allegro1234@origingg.cjdraitfnk0j.us-east-1.rds.amazonaws.com:5432/originGG",
+        "host": "postgres://origin_postgraphql:allegro1234@origingg.cjdraitfnk0j.us-east-1.rds.amazonaws.com:5432/originGG?ssl=1",
         "default_role": "origin_anonymous",
         "schema_name": "origin",
         "jwt_secret": "bbo9Q4jsIkfQ1gkpolQAKLXO4WZ-s3SEcvo3gHwfxCEM_IBSisDWzlwcmDKjVfH0",
         "jwt_token": "origin.jwt_token",
         "graphiql": false,
         "port": 5000
-    },
-    "graphql" : {
-        "graphql_url": "http:localhost:5000/graphql",
-        "graphiql_url": "http:localhost:5000/graphiql"
     }
 }
