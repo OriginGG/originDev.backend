@@ -1,0 +1,5 @@
+# docker.nginx
+
+FROM nginx
+RUN mkdir -p /wwwroot
+RUN service nginx start

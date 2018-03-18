@@ -28,7 +28,9 @@ services:
       - "5000:5000"
     command: "npm run start"
   nginx:
-    image: nginx
+    build:
+      context: ./graphql
+      dockerfile: Dockerfile.nginx
     network_mode: bridge
     container_name: nginx-container
     environment:
