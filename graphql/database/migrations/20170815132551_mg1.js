@@ -82,7 +82,10 @@ exports.up = function (knex, Promise) {
                 .string('organisation')
                 .references('sub_domain')
                 .inTable('origin.organisation_account');
-            table.string('channel_name');
+            table.string('youtube_video_1');
+            table.string('youtube_video_2');
+            table.string('youtube_video_3');
+            table.string('youtube_video_4');
             table.timestamps(true, true);
         }),
         knex.schema.withSchema('origin').createTable('sponsors', table => {
