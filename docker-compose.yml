@@ -50,6 +50,7 @@ services:
       - "443:443"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ~/applications/graphql/my_proxy.conf:/etc/nginx/conf.d/my_proxy.conf
       - ~/applications/backend_server/certs:/etc/nginx/certs
 
 

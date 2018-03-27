@@ -30,7 +30,8 @@ exports.seed = function seed(knex, Promise) {
                 },
                     {
                         header: {
-                            logo: { type: 'image', imageData: 'https://s3.amazonaws.com/origin-images/ascendant/logo.png', bgImage: false },
+                            logo: {
+                                type: 'image', imageData: 'https://s3.amazonaws.com/origin-images/origin/logo-top.png', bgImage: false },
                             menu: {
                                 items: {
                                     menu1: {
@@ -53,7 +54,8 @@ exports.seed = function seed(knex, Promise) {
                             }
                         },
                         main_section: {
-                            background: { type: 'image', imageData: 'https://s3.amazonaws.com/origin-images/ascendant/background.jpeg', bgImage: false },
+                            background: {
+                                type: 'image', imageData: 'https://s3.amazonaws.com/origin-images/origin/jumbotron/section1-bg1.jpg', bgImage: false },
                         },
                     }
                 )
