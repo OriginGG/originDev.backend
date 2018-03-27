@@ -1,8 +1,10 @@
-let createRecord = (knex,  o, bt, li) => {
+let createRecord = (knex,  o, s1, s2, s3, s4) => {
     return knex('origin.sponsors').insert({
         organisation: o,
-        image_url: bt,
-        link_url: li
+        sponsor1: s1,
+        sponsor2: s2,
+        sponsor3: s3,
+        sponsor4: s4,
     });
 };
 
@@ -17,35 +19,16 @@ exports.seed = function seed(knex, Promise) {
                 createRecord(knex,
                     'ascendant',
                     'https://s3.amazonaws.com/origin-images/ascendant/sponsors/1518194462521EGL_logo_410x.png',
-                    '',
-                )
-            );
-            records.push(
-                createRecord(knex,
-                    'ascendant',
                     'https://s3.amazonaws.com/origin-images/ascendant/sponsors/sponsor-logo2.png',
-                    ''
-                )
-            );
-            records.push(
-                createRecord(knex,
-                    'ascendant',
                     'https://s3.amazonaws.com/origin-images/ascendant/sponsors/1518194462521EGL_logo_410x.png',
-                    '',
-                )
-            );
-            records.push(
-                createRecord(knex,
-                    'ascendant',
                     'https://s3.amazonaws.com/origin-images/ascendant/sponsors/sponsor-logo2.png',
-                    ''
                 )
             );
             return Promise.all(records);
         })
         .then(() => {
             return knex.raw(
-                'alter sequence origin.sponsors_id_seq restart with 5'
+                'alter sequence origin.sponsors_id_seq restart with 2'
             );
         });
     

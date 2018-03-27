@@ -81,7 +81,22 @@ begin
 end;
 $$ language plpgsql strict security definer;
 
-
+create function origin.register_user(
+  first_name text,
+  last_name text,
+  email text,
+  password text,
+  admin_user boolean
+) returns origin.users as $$
+declare
+  person origin.users;
+begin
+  insert into origin.users (first_name, last_name, organisation, email, password_hash, admin_user) values
+    (first_name, last_name, null, email, crypt(password, gen_salt('bf')), admin_user)
+    returning * into person;
+  return person;
+end;
+$$ language plpgsql strict security definer;
 
 
 -- Allows Schema Useage for all users
@@ -94,6 +109,8 @@ grant usage on schema origin to origin_anonymous, origin_user, origin_admin;
 grant select, insert, update, delete on table origin.organisation_account to origin_anonymous, origin_user, origin_admin;
 
 -- All users can view  person file (this is only temporary to do some testing!!)
+
+grant execute on function origin.register_user(text, text, text, text, boolean) to origin_anonymous;
 
 
 grant select, insert, update, delete on table origin.users to origin_anonymous, origin_user, origin_admin;
@@ -109,6 +126,7 @@ grant execute on function origin.hash_password(text) to origin_anonymous, origin
 
 grant usage on sequence origin.blogs_id_seq to origin_anonymous, origin_user, origin_admin;
 grant usage on sequence origin.youtube_channels_id_seq to origin_user, origin_admin;
+grant usage on sequence origin.sponsors_id_seq to origin_user, origin_admin;
 
 -- alter table origin.blogs enable row level security;
 alter table origin.youtube_channels enable row level security;

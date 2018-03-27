@@ -94,8 +94,10 @@ exports.up = function (knex, Promise) {
                 .string('organisation')
                 .references('sub_domain')
                 .inTable('origin.organisation_account');
-            table.string('image_url');
-            table.string('link_url');
+            table.string('sponsor1');
+            table.string('sponsor2');
+            table.string('sponsor3');
+            table.string('sponsor4');
             table.timestamps(true, true);
         })
     ]);
