@@ -127,6 +127,7 @@ grant execute on function origin.hash_password(text) to origin_anonymous, origin
 grant usage on sequence origin.blogs_id_seq to origin_anonymous, origin_user, origin_admin;
 grant usage on sequence origin.youtube_channels_id_seq to origin_user, origin_admin;
 grant usage on sequence origin.sponsors_id_seq to origin_user, origin_admin;
+grant usage on sequence origin.recentmatches_id_seq to origin_user, origin_admin;
 
 -- alter table origin.blogs enable row level security;
 alter table origin.youtube_channels enable row level security;
