@@ -117,6 +117,7 @@ grant select, insert, update, delete on table origin.users to origin_anonymous, 
 grant select, insert, update, delete on table origin.themes to origin_anonymous, origin_user, origin_admin;
 grant select, insert, update, delete on table origin.recentmatches to origin_anonymous, origin_user, origin_admin;
 grant select, insert, update, delete on table origin.blogs to origin_anonymous, origin_user, origin_admin;
+grant select, insert, update, delete on table origin.pages to origin_anonymous, origin_user, origin_admin;
 grant select, insert, update, delete on table origin.youtube_channels to origin_anonymous, origin_user, origin_admin;
 grant select, insert, update, delete on table origin.twitch_channels to origin_anonymous, origin_user, origin_admin;
 grant select, insert, update, delete on table origin.sponsors to origin_anonymous, origin_user, origin_admin;
@@ -125,6 +126,7 @@ grant execute on function origin.authenticate(text, text) to origin_anonymous, o
 grant execute on function origin.hash_password(text) to origin_anonymous, origin_user;
 
 grant usage on sequence origin.blogs_id_seq to origin_anonymous, origin_user, origin_admin;
+grant usage on sequence origin.pages_id_seq to origin_anonymous, origin_user, origin_admin;
 grant usage on sequence origin.youtube_channels_id_seq to origin_user, origin_admin;
 grant usage on sequence origin.sponsors_id_seq to origin_user, origin_admin;
 grant usage on sequence origin.recentmatches_id_seq to origin_user, origin_admin;

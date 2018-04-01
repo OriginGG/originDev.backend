@@ -99,7 +99,20 @@ exports.up = function (knex, Promise) {
             table.string('sponsor3');
             table.string('sponsor4');
             table.timestamps(true, true);
+        }),
+        knex.schema.withSchema('origin').createTable('pages', table => {
+            table.increments();
+            table
+                .string('organisation')
+                .references('sub_domain')
+                .inTable('origin.organisation_account');
+            table.string('page_title');
+            table.string('page_key');
+            table.string('page_content');
+            table.string('page_subtitle');
+            table.timestamps(true, true);
         })
+
     ]);
 };
 
