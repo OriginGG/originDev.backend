@@ -17,3 +17,7 @@ const Route = use('Route')
 
 Route.on('/').render('welcome')
 Route.post('upload/:folder', 'FileController.upload')
+Route.get('login/facebook', 'LoginController.redirect')
+Route.get('facebook/callback', 'LoginController.callback')
+Route.get('domain/createdomaintoken/:domain', 'DomainController.createdomaintoken')
+Route.get('domain/decodedomaintoken/:token', 'DomainController.decodedomaintoken')

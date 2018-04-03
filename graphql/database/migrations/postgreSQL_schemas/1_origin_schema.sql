@@ -132,20 +132,20 @@ grant usage on sequence origin.sponsors_id_seq to origin_user, origin_admin;
 grant usage on sequence origin.recentmatches_id_seq to origin_user, origin_admin;
 
 -- alter table origin.blogs enable row level security;
-alter table origin.youtube_channels enable row level security;
-alter table origin.twitch_channels enable row level security;
-alter table origin.sponsors enable row level security;
+-- alter table origin.youtube_channels enable row level security;
+-- alter table origin.twitch_channels enable row level security;
+-- alter table origin.sponsors enable row level security;
 
 -- create policy blogs_security on origin.blogs to origin_user,  origin_admin
 --   using(organisation = current_setting('jwt.claims.organisation')::text);
 
-create policy youtube_channels_security on origin.youtube_channels to origin_user,  origin_admin
-  using(organisation = current_setting('jwt.claims.organisation')::text);
+-- create policy youtube_channels_security on origin.youtube_channels to origin_user,  origin_admin
+--   using(organisation = current_setting('jwt.claims.organisation')::text);
 
-create policy twitch_channels_security on origin.twitch_channels to origin_user,  origin_admin
-  using(organisation = current_setting('jwt.claims.organisation')::text);
+-- create policy twitch_channels_security on origin.twitch_channels to origin_user,  origin_admin
+--   using(organisation = current_setting('jwt.claims.organisation')::text);
 
-create policy sponsors_security on origin.sponsors to origin_user,  origin_admin
-  using(organisation = current_setting('jwt.claims.organisation')::text);
+-- create policy sponsors_security on origin.sponsors to origin_user,  origin_admin
+--   using(organisation = current_setting('jwt.claims.organisation')::text);
 
 commit;
