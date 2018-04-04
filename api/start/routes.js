@@ -19,5 +19,7 @@ Route.on('/').render('welcome')
 Route.post('upload/:folder', 'FileController.upload')
 Route.get('login/facebook', 'LoginController.redirect')
 Route.get('facebook/callback', 'LoginController.callback')
-Route.get('domain/createdomaintoken/:domain', 'DomainController.createdomaintoken')
-Route.get('domain/decodedomaintoken/:token', 'DomainController.decodedomaintoken')
+Route.get('domain/create_domain_token', 'DomainController.createdomaintoken')
+Route.get('domain/get_domain_txt_record', 'DomainController.getDomainTXTRecord')
+
+

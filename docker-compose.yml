@@ -34,7 +34,7 @@ services:
     network_mode: bridge
     container_name: nginx-container
     environment:
-      - VIRTUAL_HOST=originapi.com,*.originapi.com
+      - VIRTUAL_HOST=www.originapi.com,originapi.com,*.originapi.com
       - NODE_ENV=production
       - PROD=true
     ports:

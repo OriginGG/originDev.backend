@@ -9,6 +9,7 @@ exports.up = function (knex, Promise) {
                 table.string('sub_domain').unique();
                 table.string('theme_id')
                 table.string('name');
+                table.string('company_store_link');
                 table.string('description');
                 table.string('fb_link');
                 table.string('insta_link');
@@ -109,7 +110,7 @@ exports.up = function (knex, Promise) {
                 .inTable('origin.organisation_account');
             table.string('page_title');
             table.string('page_key');
-            table.string('page_content');
+            table.text('page_content');
             table.string('page_subtitle');
             table.timestamps(true, true);
         })
