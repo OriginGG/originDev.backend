@@ -7,6 +7,7 @@ exports.up = function (knex, Promise) {
                 table.primary('sub_domain');
                 table.timestamps(true, true);
                 table.string('sub_domain').unique();
+                table.string('theme_id')
                 table.string('name');
                 table.string('description');
                 table.string('fb_link');

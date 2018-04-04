@@ -1,4 +1,4 @@
-let createRecord = (knex, nm, sd, ds, fb, is, tw, twi, lg, pc, tf) => {
+let createRecord = (knex, nm, sd, ds, fb, is, tw, twi, lg, pc, tf, tn) => {
     return knex('origin.organisation_account').insert({
         name: nm,
         sub_domain: sd,
@@ -9,7 +9,8 @@ let createRecord = (knex, nm, sd, ds, fb, is, tw, twi, lg, pc, tf) => {
         twitch_link: twi,
         logo: lg,
         primary_color: pc,
-        twitter_feed_username: tf
+        twitter_feed_username: tf,
+        theme_id: tn
     });
 };
 
@@ -27,26 +28,12 @@ exports.seed = function seed(knex, Promise) {
                     'Desc',
                     'http://',
                     'http://',
-                    'https://twitter.com/or1g1n_gg',
+                    'https://twitter.com/origin_gg',
                     'http://',
                     'http://',
                     '#0a9ab4',
-                    'origin'
-                )
-            );
-            records.push(
-                createRecord(
-                    knex,
-                    'Ascendant',
-                    'ascendant',
-                    'Desc',
-                    'http://',
-                    'http://',
-                    'https://twitter.com/AscendantLLC',
-                    'http://',
-                    'http://',
-                    '#0a9ab4',
-                    'AscendantLLC'
+                    'origin',
+                    'light'
                 )
             );
             return Promise.all(records);

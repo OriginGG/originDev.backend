@@ -29,23 +29,11 @@ exports.seed = function seed(knex, Promise) {
                     true
                 )
             );
-            records.push(
-                createRecord(
-                    knex,
-                    2,
-                    'Test',
-                    'User',
-                    'test@ascendant.com',
-                    '$2a$06$UEwBzEmi9y8VdLL3rj2t/erTbj9HZmEwG/7R1qlOz2D/I0zDfGjsG',
-                    'ascendant',
-                    true
-                )
-            );
             return Promise.all(records);
         })
         .then(() => {
             return knex.raw(
-                'alter sequence origin.users_id_seq restart with 3'
+                'alter sequence origin.users_id_seq restart with 2'
             );
         });
 };
