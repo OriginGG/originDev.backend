@@ -21,5 +21,6 @@ Route.get('login/facebook', 'LoginController.redirect')
 Route.get('facebook/callback', 'LoginController.callback')
 Route.get('domain/create_domain_token', 'DomainController.createdomaintoken')
 Route.get('domain/get_domain_txt_record', 'DomainController.getDomainTXTRecord')
+Route.get('emails/signup', 'MailController.signup')
 
 

@@ -35,6 +35,17 @@ exports.up = function (knex, Promise) {
                 .inTable('origin.organisation_account');
             table.boolean('admin_user').defaultTo(false);
         }),
+        knex.schema.withSchema('origin').createTable('pre_users', table => {
+            table.increments();
+            table.timestamps(true, true);
+            table.string('name');
+            table
+                .string('email')
+                .notNull()
+                .unique();
+            table.string('password').notNull();
+            table.boolean('admin_user').defaultTo(false);
+        }),
         knex.schema.withSchema('origin').createTable('themes', table => {
             table.string('theme_name').primary().unique()
                 .references('sub_domain')

@@ -37,6 +37,13 @@ create type origin.jwt_token as (
   organisation text
 );
 
+create type origin.pre_jwt_token as (
+  role text,
+  id integer,
+  email text
+);
+
+
 create type auth_account as (
     id integer,
     admin_user boolean,
@@ -98,6 +105,22 @@ begin
 end;
 $$ language plpgsql strict security definer;
 
+create function origin.pre_register_user(
+  name text,
+  email text,
+  password text,
+  admin_user boolean
+) returns jwt_token as $$
+declare
+  person origin.pre_users;
+begin
+  insert into origin.pre_users (name, email, password, admin_user) values
+    (name, email, password, admin_user)
+    returning * into person;
+  return ('origin_anonymous', person.id, person.email)::origin.pre_jwt_token;
+end;
+$$ language plpgsql strict security definer;
+
 
 -- Allows Schema Useage for all users
 
@@ -111,9 +134,11 @@ grant select, insert, update, delete on table origin.organisation_account to ori
 -- All users can view  person file (this is only temporary to do some testing!!)
 
 grant execute on function origin.register_user(text, text, text, text, boolean) to origin_anonymous;
+grant execute on function origin.pre_register_user(text, text, text, boolean) to origin_anonymous;
 
 
 grant select, insert, update, delete on table origin.users to origin_anonymous, origin_user, origin_admin;
+grant select, insert, update, delete on table origin.pre_users to origin_anonymous, origin_user, origin_admin;
 grant select, insert, update, delete on table origin.themes to origin_anonymous, origin_user, origin_admin;
 grant select, insert, update, delete on table origin.recentmatches to origin_anonymous, origin_user, origin_admin;
 grant select, insert, update, delete on table origin.blogs to origin_anonymous, origin_user, origin_admin;
