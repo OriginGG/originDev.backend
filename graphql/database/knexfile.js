@@ -21,6 +21,27 @@ module.exports = {
             tableName: 'knex_seeds',
             directory: './seeds'
         }
+    },
+     production: {
+        client: 'postgresql',
+        connection: {
+            host: 'origin-production.cjdraitfnk0j.us-east-1.rds.amazonaws.com',
+            database: 'originGG',
+            user: 'origin',
+            password: 'allegro1234'
+        },
+        pool: {
+            min: 2,
+            max: 10
+        },
+        migrations: {
+            tableName: 'knex_migrations',
+            directory: './migrations'
+        },
+        seeds: {
+            tableName: 'knex_seeds',
+            directory: './seeds'
+        }
     }
 
     // staging: {

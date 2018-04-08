@@ -130,5 +130,21 @@ exports.up = function (knex, Promise) {
 };
 
 exports.down = function (knex, Promise) {
-    return Promise.all([knex.schema.withSchema('origin').dropTable('user')]);
+    return Promise.all([
+        knex.schema.withSchema('origin').dropTable('pages'),
+        knex.schema.withSchema('origin').dropTable('sponsors'),
+        knex.schema.withSchema('origin').dropTable('youtube_channels'),
+        knex.schema.withSchema('origin').dropTable('twitch_channels'),
+        knex.schema.withSchema('origin').dropTable('blogs'),
+        knex.schema.withSchema('origin').dropTable('recentmatches'),
+        knex.schema.withSchema('origin').dropTable('themes'),
+        knex.schema.withSchema('origin').dropTable('pre_users'),
+        knex.schema.withSchema('origin').dropTable('users'),
+        knex.schema.withSchema('origin').dropTable('organisation_account'),
+        knex.raw('drop schema origin;'),
+
+
+
+
+    ]);
 };

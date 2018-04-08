@@ -5,13 +5,13 @@ exports.up = function (knex, Promise) {
     console.log('new sql functions - begin');
     return new Promise((resolve) => {
         console.log(__dirname);
-        fs.readFile(`${__dirname}/postgreSQL_schemas/1_origin_schema.sql`, 'utf8', function read(err, data) {
+        fs.readFile(`${__dirname}/../postgreSQL_schemas/1_origin_schema.sql`, 'utf8', function read(err, data) {
             if (err) {
                 throw err;
             }
             Promise.all([
                 knex.raw(data),
-            ]).then(()=>{
+            ]).then(() => {
                 console.log('new sql functions');
                 resolve(true);
             })

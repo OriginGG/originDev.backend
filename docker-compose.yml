@@ -21,12 +21,25 @@ services:
     network_mode: bridge
     container_name: graphql-container
     environment:
+      - VIRTUAL_HOST=dev.graphql.originapi.com
+      - NODE_ENV=development
+      - PROD=true
+    ports:
+      - "5001:5001"
+    command: "npm run start"
+  postgraphile_prod:
+    build:
+      context: ./graphql
+      dockerfile: Dockerfile.graphql
+    network_mode: bridge
+    container_name: graphql-prod-container
+    environment:
       - VIRTUAL_HOST=graphql.originapi.com
       - NODE_ENV=production
       - PROD=true
     ports:
       - "5000:5000"
-    command: "npm run start"
+    command: "npm run start"  
   nginx:
     build:
       context: ./graphql
@@ -34,7 +47,7 @@ services:
     network_mode: bridge
     container_name: nginx-container
     environment:
-      - VIRTUAL_HOST=www.originapi.com,originapi.com,*.originapi.com
+      - VIRTUAL_HOST=www.origin.gg,origin.gg,*.origin.gg
       - NODE_ENV=production
       - PROD=true
     ports:

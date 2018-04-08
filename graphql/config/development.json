@@ -5,7 +5,7 @@
         "schema_name": "origin",
         "jwt_secret": "bbo9Q4jsIkfQ1gkpolQAKLXO4WZ-s3SEcvo3gHwfxCEM_IBSisDWzlwcmDKjVfH0",
         "jwt_token": "origin.jwt_token",
-        "graphiql": false,
-        "port": 5000
+        "graphiql": true,
+        "port": 5001
     }
 }

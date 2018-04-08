@@ -22,7 +22,8 @@ BEGIN
     END IF;
 	IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'origin_anonymous') THEN
         CREATE ROLE origin_anonymous;
-    END IF;		IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'origin_admin') THEN
+    END IF;		
+  IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'origin_admin') THEN
         CREATE ROLE origin_admin;
     END IF;
 	IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'origin_user') THEN
@@ -122,6 +123,30 @@ end;
 $$ language plpgsql strict security definer;
 
 
+create type pre_auth_account as (
+    id integer,
+    password text,
+    email text
+);
+
+create or replace function origin.pre_user_authenticate(
+  email text,
+  password text
+) returns jwt_token as $$
+declare
+  account pre_auth_account;
+begin
+  select a.id, a.password, a.email into account 
+  from origin.pre_users as a
+  where a.email = $1 AND a.password = $2;
+  if account.id > 0 then
+    return ('origin_anonymous', account.id, account.email)::origin.pre_jwt_token;
+  else
+    return null;
+  end if;
+end;
+$$ language plpgsql strict security definer;
+
 -- Allows Schema Useage for all users
 
 grant origin_admin to origin_postgraphql;
@@ -135,6 +160,7 @@ grant select, insert, update, delete on table origin.organisation_account to ori
 
 grant execute on function origin.register_user(text, text, text, text, boolean) to origin_anonymous;
 grant execute on function origin.pre_register_user(text, text, text, boolean) to origin_anonymous;
+grant execute on function origin.pre_user_authenticate(text, text) to origin_anonymous;
 
 
 grant select, insert, update, delete on table origin.users to origin_anonymous, origin_user, origin_admin;
@@ -153,7 +179,7 @@ grant execute on function origin.hash_password(text) to origin_anonymous, origin
 grant usage on sequence origin.blogs_id_seq to origin_anonymous, origin_user, origin_admin;
 grant usage on sequence origin.pages_id_seq to origin_anonymous, origin_user, origin_admin;
 grant usage on sequence origin.youtube_channels_id_seq to origin_user, origin_admin;
-grant usage on sequence origin.sponsors_id_seq to origin_user, origin_admin;
+grant usage on sequence origin.sponsors_id_seq to origin_anonymous, origin_user, origin_admin;
 grant usage on sequence origin.recentmatches_id_seq to origin_user, origin_admin;
 
 -- alter table origin.blogs enable row level security;

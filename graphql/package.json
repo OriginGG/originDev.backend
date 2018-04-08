@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node graphql-server.js"
+    "start": "node graphql-server.js",
+    "start_production": "node graphql-server.prod.js"
   },
   "author": "",
   "license": "ISC",
