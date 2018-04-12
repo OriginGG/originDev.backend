@@ -8,6 +8,13 @@ const moment = require('moment');
 const crypto = require('crypto');
 
 class DomainController {
+    async accessSite({ response, request }) {
+        const hostname = request.hostname()
+        console.log(hostname);
+        const record = await this.getRecord(hostname);
+        console.log({ txt: record });
+        response.redirect('http://origin.gg?domain=disrupt');
+    }
     async getDomainTXTRecord({ response, request }) {
         const q = request.all(); 
         const { host } = q;

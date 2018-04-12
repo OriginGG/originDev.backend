@@ -1,19 +1,6 @@
 
 version: '2'
 services:
-  backend:
-    build:
-      context: ./api
-      dockerfile: Dockerfile.api
-    network_mode: bridge
-    container_name: api-container
-    environment:
-      - VIRTUAL_HOST=api.originapi.com
-      - NODE_ENV=production
-      - PROD=true
-    ports:
-      - "3000:3000"
-    command: "npm run start"
   postgraphile:
     build:
       context: ./graphql
@@ -54,10 +41,26 @@ services:
       - "3001:3001"
     volumes:
       - ./frontend/build:/wwwroot
+  nginx_dev:
+    build:
+      context: ./graphql
+      dockerfile: Dockerfile.dev.nginx
+    network_mode: bridge
+    container_name: nginx-dev-container
+    environment:
+      - VIRTUAL_HOST=www.originapi.com,originapi.com,*.originapi.com
+      - NODE_ENV=development
+      - PROD=false
+    ports:
+      - "3002:3002"
+    volumes:
+      - ./frontend/build_dev:/wwwroot_dev
   nginx-proxy:
     image: jwilder/nginx-proxy
     network_mode: bridge
     container_name: nginx-proxy-container
+    environment:
+      - DEFAULT_HOST=origin.gg
     ports:
       - "80:80"
       - "443:443"
