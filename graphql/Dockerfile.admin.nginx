@@ -1,0 +1,6 @@
+# docker.nginx
+
+FROM nginx
+RUN mkdir -p /wwwroot_admin
+COPY nginx.admin.conf /etc/nginx/conf.d/default.conf
+RUN service nginx start

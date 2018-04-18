@@ -55,6 +55,34 @@ services:
       - "3002:3002"
     volumes:
       - ./frontend/build_dev:/wwwroot_dev
+  nginx_admin:
+    build:
+      context: ./graphql
+      dockerfile: Dockerfile.admin.nginx
+    network_mode: bridge
+    container_name: nginx-admin-container
+    environment:
+      - VIRTUAL_HOST=admin.originapi.com,www.admin.originapi.com
+      - NODE_ENV=production
+      - PROD=false
+    ports:
+      - "3003:3003"
+    volumes:
+      - ./frontend_admin/build:/wwwroot_admin
+  nginx_prod_admin:
+    build:
+      context: ./graphql
+      dockerfile: Dockerfile.admin.prod.nginx
+    network_mode: bridge
+    container_name: nginx-admin-prod-container
+    environment:
+      - VIRTUAL_HOST=admin.origin.gg,www.admin.origin.gg
+      - NODE_ENV=production
+      - PROD=false
+    ports:
+      - "3004:3004"
+    volumes:
+      - ./frontend_admin/prod_build:/wwwroot_admin_prod
   nginx-proxy:
     image: jwilder/nginx-proxy
     network_mode: bridge
