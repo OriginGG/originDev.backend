@@ -28,5 +28,8 @@ Route.delete('domain/domains/:id', 'DomainController.deletedomaintokensingle')
 Route.get('domain/get_domain_txt_record', 'DomainController.getDomainTXTRecord')
 Route.get('emails/signup', 'MailController.signup')
 Route.get('access', 'DomainController.accessSite')
+Route.get('twitch/getTwitchUserID', 'TwitchController.getTwitchUserID')
+Route.get('twitch/getTwitchChannelFollowers', 'TwitchController.getTwitchChannelFollowers')
+Route.get('twitch/getTwitchChannelTeams', 'TwitchController.getTwitchChannelTeams')
 
 

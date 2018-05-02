@@ -15,12 +15,19 @@ BEGIN
     END IF;
 END
 $$;
-
-create type origin.individual_jwt_token as (
-  role text,
-  id integer,
-  email text
+DROP FUNCTION IF EXISTS origin.authenticate_individual(
+  email text,
+  password text
 );
+DROP FUNCTION IF EXISTS origin.register_individual_user(
+  first_name text,
+  last_name text,
+  email text,
+  password text
+);
+DROP TYPE IF EXISTS individual_auth_account;
+DROP TYPE IF EXISTS origin.individual_auth_payload;
+DROP TYPE IF EXISTS origin.individual_jwt_token;
 
 
 create type individual_auth_account as (
@@ -30,10 +37,10 @@ create type individual_auth_account as (
 );
 
 create type origin.individual_auth_payload as (
-  jwt_token origin.individual_jwt_token,
+  jwt_token origin.jwt_token,
   user_id integer
 );
-create function origin.authenticate_individual(
+create or replace function origin.authenticate_individual(
   email text,
   password text
 ) returns origin.individual_auth_payload as $$
@@ -41,17 +48,17 @@ declare
   account individual_auth_account;
 begin
   select a.id, a.password_hash, a.email into account 
-  from origin.individial_users as a
+  from origin.individual_users as a
   where a.email = $1;
   if account.password_hash = crypt(password, account.password_hash) then
-    	return (('origin_individual_user', account.id, account.email)::origin.individual_jwt_token, account.id);
+    	return (('origin_individual_user', account.id, account.email)::origin.jwt_token, account.id);
 	else
     return null;
   end if;
 end;
 $$ language plpgsql strict security definer;
 
-create function origin.register_individual_user(
+create or replace function origin.individual_user_register(
   first_name text,
   last_name text,
   email text,
@@ -75,7 +82,7 @@ grant select, insert, update, delete on table origin.individual_users to origin_
 
 -- All users can view  person file (this is only temporary to do some testing!!)
 
-grant execute on function origin.register_individual_user(text, text, text, text) to origin_anonymous;
+grant execute on function origin.individual_user_register(text, text, text, text) to origin_anonymous;
 
 grant select, insert, update, delete on table origin.individual_users to origin_anonymous, origin_user, origin_admin;
 
