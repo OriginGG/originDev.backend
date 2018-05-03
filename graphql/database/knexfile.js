@@ -25,7 +25,7 @@ module.exports = {
      production: {
         client: 'postgresql',
         connection: {
-            host: 'origin-production.cjdraitfnk0j.us-east-1.rds.amazonaws.com',
+            host: 'origin-production-small.cjdraitfnk0j.us-east-1.rds.amazonaws.com',
             database: 'originGG',
             user: 'origin',
             password: 'allegro1234'
