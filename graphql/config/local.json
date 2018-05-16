@@ -6,6 +6,7 @@
         "jwt_secret": "bbo9Q4jsIkfQ1gkpolQAKLXO4WZ-s3SEcvo3gHwfxCEM_IBSisDWzlwcmDKjVfH0",
         "jwt_token" : "origin.jwt_token",
         "graphiql": true,
-        "port" : 5000
+        "port" : 5000,
+        "body_size_limit": "5MB"
     }
 }

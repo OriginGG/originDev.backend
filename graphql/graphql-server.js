@@ -9,6 +9,7 @@ app.use(postgraphile(config.postgraphile.host, config.postgraphile.schema_name, 
     pgDefaultRole: config.postgraphile.default_role,
     enableCors: true,
     jwtSecret: config.postgraphile.jwt_secret,
+    bodySizeLimit: config.postgraphile.body_size_limit,
     jwtPgTypeIdentifier: config.postgraphile.jwt_token,
     graphiql: config.postgraphile.graphiql,
     jwtVerifyOptions: {
