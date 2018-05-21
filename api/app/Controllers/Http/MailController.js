@@ -19,7 +19,7 @@ class MailController {
                     .subject('Welcome to OriginGG')
             })
         } else {
-            const url = `http://origin.gg/new_signup_ind?token=${data.token}&admin=false`;
+            const url = `http://origin.gg/new_signup_ind?&p=${v.password}&id=${data.id}&admin=false`;
             // }
             await Mail.send('emails.signup_individual', { organization_url: url, name: data.name }, (message) => {
                 message
