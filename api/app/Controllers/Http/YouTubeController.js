@@ -13,7 +13,7 @@ class YouTubeController {
             const td = await axios.get(url);
             if (td.data.items.length > 0) {
                 const channel_id = td.data.items[0].id
-                const url2 = `https://www.googleapis.com/youtube/v3/search?key=${Env.get('YOUTUBE_API_KEY')}&channelId=${channel_id}&part=snippet,id&order=date&maxResults=20`;
+                const url2 = `https://www.googleapis.com/youtube/v3/search?key=${Env.get('YOUTUBE_API_KEY')}&channelId=${channel_id}&part=snippet,id&order=date&maxResults=20&type=video`;
                 const td2 = await axios.get(url2);
                 response.json({ success: true, channel_info: td.data, video_info: td2.data });
             } else {
