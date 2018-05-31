@@ -1,6 +1,20 @@
 
 version: '2'
 services:
+  webpack:
+    build:
+      context: ./graphql
+      dockerfile: Dockerfile.web_builder
+    image: web-builder
+    container_name: web-builder-container
+    ports:
+      - "8081:8081"
+    volumes:
+      - ~/applications/frontend/dev:/app_dev
+      - /app_dev/node_modules
+      - ~/applications/frontend/prod:/app_prod
+      - /app_prod/node_modules
+    command: tail -F /app_prod
   postgraphile:
     build:
       context: ./graphql
@@ -40,7 +54,8 @@ services:
     ports:
       - "3001:3001"
     volumes:
-      - ./frontend/build:/wwwroot
+      - ./frontend/prod/build:/wwwroot_prod
+      - ./frontend/prod/html/landing:/wwwroot_prod_landing
   nginx_dev:
     build:
       context: ./graphql
@@ -48,13 +63,14 @@ services:
     network_mode: bridge
     container_name: nginx-dev-container
     environment:
-      - VIRTUAL_HOST=www.originapi.com,originapi.com,*.originapi.com
-      - NODE_ENV=development
-      - PROD=false
+      - VIRTUAL_HOST=www.originbeta.net,originbeta.net,*.originbeta.net
+      - NODE_ENV=production
+      - PROD=true
     ports:
       - "3002:3002"
     volumes:
-      - ./frontend/build_dev:/wwwroot_dev
+      - ~/applications/frontend/dev/build:/wwwroot_dev 
+      - ~/applications/frontend/dev/html/landing:/wwwroot_dev_landing
   nginx_admin:
     build:
       context: ./graphql
@@ -96,5 +112,24 @@ services:
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - ~/applications/graphql/my_proxy.conf:/etc/nginx/conf.d/my_proxy.conf
       - ~/applications/backend_server/certs:/etc/nginx/certs
-
-
+  jenkins:
+    image: jenkins/jenkins:lts
+    ports:
+      - "8100:8100"
+      - "50000:50000"
+    expose:
+      - "8100"
+    network_mode: bridge
+    environment:
+      - JENKINS_OPTS="--httpPort=8100"
+      - VIRTUAL_PORT=8100
+      - VIRTUAL_HOST=ci.originapi.com,www.ci.originapi.com
+    volumes:
+      - jenkins_home:/var/jenkins_home
+volumes:
+  jenkins_home:
+    driver: local
+  wwwroot_dev:
+    driver: local
+  wwwroot_prod:
+    driver: local

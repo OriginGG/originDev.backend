@@ -2,5 +2,6 @@
 
 FROM nginx
 RUN mkdir -p /wwwroot_dev
+RUN mkdir -p /wwwroot_dev_landing
 COPY nginx.dev.conf /etc/nginx/conf.d/default.conf
 RUN service nginx start
