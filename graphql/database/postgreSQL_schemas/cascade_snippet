@@ -1,0 +1,13 @@
+ALTER TABLE origin.roster_individuals
+	DROP CONSTRAINT roster_individuals_individual_id_foreign,
+    ADD CONSTRAINT roster_individuals_individual_id_foreign FOREIGN KEY (individual_id)
+    REFERENCES origin.individual_users (id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE CASCADE;
+
+    ALTER TABLE origin.roster_individuals
+	DROP CONSTRAINT roster_individuals_roster_id_foreign,
+    ADD CONSTRAINT roster_individuals_roster_id_foreign FOREIGN KEY (roster_id)
+    REFERENCES origin.rosters (id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE CASCADE;

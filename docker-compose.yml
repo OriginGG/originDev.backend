@@ -71,6 +71,32 @@ services:
     volumes:
       - ~/applications/frontend/dev/build:/wwwroot_dev 
       - ~/applications/frontend/dev/html/landing:/wwwroot_dev_landing
+  api_dev:
+    build:
+      context: ./api_dev
+      dockerfile: ./Dockerfile.api.dev
+    network_mode: bridge
+    container_name: api-dev-container
+    environment:
+      - VIRTUAL_HOST=dev.originapi.com
+      - NODE_ENV=production
+      - PROD=true
+    ports:
+      - "3008:3008"
+    command: "npm run start"  
+  api_prod:
+    build:
+      context: ./api_prod
+      dockerfile: ./Dockerfile.api.prod
+    network_mode: bridge
+    container_name: api-prod-container
+    environment:
+      - VIRTUAL_HOST=originapi.com
+      - NODE_ENV=production
+      - PROD=true
+    ports:
+      - "3009:3009"
+    command: "npm run start"  
   nginx_admin:
     build:
       context: ./graphql
@@ -109,9 +135,17 @@ services:
       - "80:80"
       - "443:443"
     volumes:
+      - /etc/nginx/vhost.d
+      - /usr/share/nginx/html
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - ~/applications/graphql/my_proxy.conf:/etc/nginx/conf.d/my_proxy.conf
       - ~/applications/backend_server/certs:/etc/nginx/certs
+  letsencrypt-nginx-proxy-companion:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    volumes_from:
+      - "nginx-proxy"
   jenkins:
     image: jenkins/jenkins:lts
     ports:
