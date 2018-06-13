@@ -7,8 +7,12 @@ const Env = use('Env')
 class MailController {
     async signup({ response, request }) {
         const data = request.only(['id','host', 'email', 'name', 'password', 'admin_user', 'token', 'dev'])
+        let host = 'http://origin.gg';
+        if (data.host) {
+            host = data.host;
+        } 
         if (data.admin_user === true || data.admin_user === 'true') {
-            const host = data.host;
+            
             const payload = Buffer.from(JSON.stringify(data), 'utf8').toString('hex');
             // let url = `http://localhost:3000/new_signup?token=${data.token}`;
             // if (!data.dev) {
