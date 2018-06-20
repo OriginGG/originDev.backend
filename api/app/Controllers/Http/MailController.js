@@ -5,6 +5,22 @@ const Env = use('Env')
 
 
 class MailController {
+    async invite_ind({ response, request }) {
+        const data = request.only(['host', 'email', 'organisation'])
+        let host = 'http://origin.gg';
+        if (data.host) {
+            host = data.host;
+        } 
+        const payload = Buffer.from(JSON.stringify(data), 'utf8').toString('hex');
+        const url = `${host}/ind_invite?p=${payload}`;
+        await Mail.send('emails.ind_invite', { organization_url: url, organisation: data.organisation, email: data.email }, (message) => {
+            message
+                .to(data.email)
+                .from('admin@origin.gg')
+                .subject(`Invite to ${data.organisation}`)
+        })
+        response.json({ success: true });
+    }
     async signup({ response, request }) {
         const data = request.only(['id','host', 'email', 'name', 'password', 'admin_user', 'token', 'dev'])
         let host = 'http://origin.gg';
