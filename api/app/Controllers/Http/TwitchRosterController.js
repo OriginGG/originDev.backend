@@ -6,7 +6,12 @@ const Database = use('Database');
 const getTwitchuser = require('TwitchController.js')
 
 class TwitchController{
+    async getRosterIndividualInfo({ response, request }){
 
+    
+    var roster_users = await Database.select('twitch_link').from('rosters');
+
+   
 
 }
 
