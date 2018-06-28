@@ -9,10 +9,15 @@ class TwitchController{
     async getRosterIndividualInfo({ response, request }){
 
     
-    var roster_users = await Database.select('twitch_link').from('rosters');
+    var user_twitch_link = await Database.select('twitch_link').from('rosters');
+    for(i=0;i<len(user_twitch_link),i++){
 
-   
-
+        if (user_twitch_link[i] != null)
+        {
+            getTwitchuser.getTwitchUserInfo()
+        }
+    
+    }
 }
 
 
