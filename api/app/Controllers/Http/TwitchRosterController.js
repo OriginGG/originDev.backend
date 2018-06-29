@@ -51,7 +51,7 @@ class TwitchGroupController {
 
     }
     async getTwitchGroupInfo({ session, response, request }) {
-        const rosternames = 
+        const rosternames = await Database.select('*').from('domain_registration');
         const data = request.only('name')
         const url = `${Env.get('TWITCH_API')}/users?login=${data.name}`;
         const token = await this.getTwitchToken(session);
