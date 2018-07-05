@@ -12,7 +12,7 @@ class MailController {
             host = data.host;
         } 
         const payload = Buffer.from(JSON.stringify(data), 'utf8').toString('hex');
-        const url = `${host}/ind_invite?p=${payload}`;
+        const url = `${host}/ind_invite?ipl=${payload}`;
         await Mail.send('emails.ind_invite', { organization_url: url, organisation: data.organisation, email: data.email }, (message) => {
             message
                 .to(data.email)
