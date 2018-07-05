@@ -26,7 +26,7 @@ class YouTubeController {
     async getChannelsById({response,request})
     {
         const data = request.only(['channel']);
-        const url = `www.googleapis.com/youtube/v3/channels?part=id%2Csnippet%2Cstatistics%2CcontentDetails%2CtopicDetails&forUsername=${data.channel}&key=${Env.get('YOUTUBE_API_KEY')}`
+        const url = `www.googleapis.com/youtube/v3/channels?part=id%2Csnippet%2Cstatistics%2CcontentDetails%2CtopicDetails&id=${data.channel}&key=${Env.get('YOUTUBE_API_KEY')}`
         try {
             const td = await axios.get(url);
             if (td.data.items.length > 0) {
