@@ -33,6 +33,6 @@ Route.get('twitch/getTwitchUserInfo', 'TwitchController.getTwitchUserInfo')
 Route.get('twitch/getTwitchChannelFollowers', 'TwitchController.getTwitchChannelFollowers')
 Route.get('twitch/getTwitchChannelTeams', 'TwitchController.getTwitchChannelTeams')
 Route.get('youtube/getchannels', 'YouTubeController.getChannels')
-Route.get('youtube/getuser', 'YouTubeController.getUserId')
+Route.get('youtube/getchannelsByID', 'YouTubeController.getChannelsById')
 
 
