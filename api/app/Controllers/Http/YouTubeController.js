@@ -23,7 +23,7 @@ class YouTubeController {
             response.json({ success: false });
         }    
     }
-    async  async getChannelsById({response,request})
+    async getChannelsById({response,request})
     {
         const data = request.only(['channel']);
         const url = `www.googleapis.com/youtube/v3/channels?part=id%2Csnippet%2Cstatistics%2CcontentDetails%2CtopicDetails&forUsername=${data.channel}&key=${Env.get('YOUTUBE_API_KEY')}`
