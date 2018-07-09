@@ -34,5 +34,6 @@ Route.get('twitch/getTwitchChannelFollowers', 'TwitchController.getTwitchChannel
 Route.get('twitch/getTwitchChannelTeams', 'TwitchController.getTwitchChannelTeams')
 Route.get('youtube/getchannels', 'YouTubeController.getChannels')
 Route.get('youtube/getchannelsByID', 'YouTubeController.getChannelsById')
-
+Route.get('emails/reset_password_org', 'MailController.reset_password_org')
+Route.get('emails/reset_password_ind', 'MailController.reset_password_ind')
 

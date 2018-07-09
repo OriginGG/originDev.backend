@@ -5,6 +5,38 @@ const Env = use('Env')
 
 
 class MailController {
+    async reset_password_ind({ response, request }) {
+        const data = request.only(['host', 'id', 'email']);
+        let host = 'http://origin.gg';
+        if (data.host) {
+            host = data.host;
+        }
+        const payload = Buffer.from(JSON.stringify(data), 'utf8').toString('hex');
+        const url = `${host}/password?t=set_ind&id=${data.id}`;
+        await Mail.send('emails.ind_reset_password', { id: data.id, organization_url: url }, (message) => {
+            message
+                .to(data.email)
+                .from('admin@origin.gg')
+                .subject(`Password Reset.`)
+        })
+        response.json({ success: true });
+    }
+    async reset_password_org({ response, request }) {
+        const data = request.only(['host', 'id', 'email']);
+        let host = 'http://origin.gg';
+        if (data.host) {
+            host = data.host;
+        }
+        const payload = Buffer.from(JSON.stringify(data), 'utf8').toString('hex');
+        const url = `${host}/password?t=set_org&id=${data.id}`;
+        await Mail.send('emails.org_reset_password', { id: data.id, organization_url: url}, (message) => {
+            message
+                .to(data.email)
+                .from('admin@origin.gg')
+                .subject(`Password Reset.`)
+        })
+        response.json({ success: true });
+    }
     async invite_ind({ response, request }) {
         const data = request.only(['host', 'email', 'organisation'])
         let host = 'http://origin.gg';
