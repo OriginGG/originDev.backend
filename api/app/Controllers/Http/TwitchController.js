@@ -54,6 +54,7 @@ class TwitchController {
             const url = `${Env.get('TWITCH_AUTH_API')}/oauth2/token?client_id=${Env.get('TWITCH_CLIENT_ID')}&client_secret=${Env.get('TWITCH_CLIENT_SECRET')}&grant_type=client_credentials`;
             try {
                 const td = await axios.post(url);
+                
                 resolve(td.data);
             } catch (err) {
                 resolve(null);
@@ -63,10 +64,14 @@ class TwitchController {
     
     
     async getTwitchToken(session) {
+        
         const p = session.get('twitch_auth_object')
+        
         if (!p) {
             const token = await this.readTwitchTokenFromServer();
+           
             session.put('twitch_auth_object', token);
+         
             const d = new Date();
             const n = d.getTime();
             const exp_time = n + token.expires_in;
@@ -74,6 +79,7 @@ class TwitchController {
             return token.access_token;
         } else {
             const tm = session.get('twitch_auth_expiry');
+            
             const d = new Date();
             const n = d.getTime();
             if (n > tm) {
@@ -107,6 +113,7 @@ class TwitchController {
                 response.json({ success: false });
             }   
         } catch (err) {
+            console.log(err);
             response.json({ success: false });
         }
     }
