@@ -22,6 +22,13 @@ class DomainController {
         response.send(domain[0])
     }
 
+    async getdomainmetainfo({ response, request }) {
+        const q = request.all();
+        const domain = await Database.from('themes').where('theme_name', q.domain)
+        const info = await Database.from('organisation_account').where('sub_domain', q.domain)
+        response.send({ theme_data: domain[0], domain_info: info[0] });
+    }
+
     async createdomaintokensingle({ params, response, request }) {
         const p = request.all();
         const { host } = p;

@@ -26,6 +26,8 @@ Route.post('domain/domains', 'DomainController.createdomaintokensingle')
 Route.put('domain/domains/:id', 'DomainController.updatedomaintokensingle')
 Route.delete('domain/domains/:id', 'DomainController.deletedomaintokensingle')
 Route.get('domain/get_domain_txt_record', 'DomainController.getDomainTXTRecord')
+Route.get('domain/get_domain_meta_info', 'DomainController.getdomainmetainfo')
+
 Route.get('emails/signup', 'MailController.signup')
 Route.get('emails/invite_ind', 'MailController.invite_ind')
 Route.get('access', 'DomainController.accessSite')

@@ -25,6 +25,9 @@ services:
       - VIRTUAL_HOST=dev.graphql.originapi.com
       - NODE_ENV=development
       - PROD=true
+      - HTTPS_METHOD=noredirect
+      - LETSENCRYPT_HOST=dev.graphql.originapi.com
+      - LETSENCRYPT_EMAIL=stefan.walker@gmail.com
     ports:
       - "5001:5001"
     command: "npm run start"
@@ -37,7 +40,10 @@ services:
     environment:
       - VIRTUAL_HOST=graphql.originapi.com
       - NODE_ENV=production
+      - HTTPS_METHOD=noredirect
       - PROD=true
+      - LETSENCRYPT_HOST=graphql.originapi.com
+      - LETSENCRYPT_EMAIL=stefan.walker@gmail.com
     ports:
       - "5000:5000"
     command: "npm run start"  
@@ -50,6 +56,7 @@ services:
     environment:
       - VIRTUAL_HOST=www.origin.gg,origin.gg,*.origin.gg
       - NODE_ENV=production
+      - CERT_NAME=shared
       - PROD=true
     ports:
       - "3001:3001"
@@ -64,6 +71,7 @@ services:
     container_name: nginx-dev-container
     environment:
       - VIRTUAL_HOST=www.originbeta.net,originbeta.net,*.originbeta.net
+      - CERT_NAME=originbeta
       - NODE_ENV=production
       - PROD=true
     ports:
@@ -81,6 +89,9 @@ services:
       - VIRTUAL_HOST=dev.originapi.com
       - NODE_ENV=production
       - PROD=true
+      - HTTPS_METHOD=noredirect
+      - LETSENCRYPT_HOST=dev.originapi.com
+      - LETSENCRYPT_EMAIL=stefan.walker@gmail.com
     ports:
       - "3008:8080"
     command: "npm run start"  
@@ -92,8 +103,11 @@ services:
     container_name: api-prod-container
     environment:
       - VIRTUAL_HOST=api.originapi.com
+      - HTTPS_METHOD=noredirect
       - NODE_ENV=production
       - PROD=true
+      - LETSENCRYPT_HOST=api.originapi.com
+      - LETSENCRYPT_EMAIL=stefan.walker@gmail.com
     ports:
       - "3009:8080"
     command: "npm run start"  
