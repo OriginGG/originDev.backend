@@ -7,12 +7,16 @@ var Twitter = require('twitter');
 
 
 class TwitterController {
-  async getTwitterUserInfo({session,response,request
+  async getTwitterUserInfo({
+    session,
+    response,
+    request
   }) {
     const data = request.only(['user']);
     try {
       const twitterData = await this.UserLookUp(data.user);
       response.json(twitterData);
+
     } catch (err) {
       response.json({
         success: false
