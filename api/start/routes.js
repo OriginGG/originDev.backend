@@ -31,6 +31,8 @@ Route.get('domain/get_domain_meta_info', 'DomainController.getdomainmetainfo')
 Route.get('emails/signup', 'MailController.signup')
 Route.get('emails/invite_ind', 'MailController.invite_ind')
 Route.get('access', 'DomainController.accessSite')
+
+Route.get('twitch/getTwitchStreams', 'TwitchController.getTwitchStreams')
 Route.get('twitch/getTwitchUserInfo', 'TwitchController.getTwitchUserInfo')
 Route.get('twitch/getTwitchChannelFollowers', 'TwitchController.getTwitchChannelFollowers')
 Route.get('twitch/getTwitchChannelTeams', 'TwitchController.getTwitchChannelTeams')
