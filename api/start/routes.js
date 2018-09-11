@@ -41,4 +41,5 @@ Route.get('youtube/getchannelsByID', 'YouTubeController.getChannelsById')
 Route.get('emails/reset_password_org', 'MailController.reset_password_org')
 Route.get('emails/reset_password_ind', 'MailController.reset_password_ind')
 Route.get('twitter/getTwitterUserInfo','TwitterController.getTwitterUserInfo')
-
+Route.post('stripe/create_subscription', 'StripeController.create_subscription')
+// Route.post('stripe/create_product_and_plans', 'StripeController.create_product_and_plans')
