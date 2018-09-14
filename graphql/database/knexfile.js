@@ -1,6 +1,28 @@
 // Update with your config settings.
 
 module.exports = {
+    local:{
+        client:'postgresql',
+        connection:{
+            host:'localhost',
+            database:'originlocal',
+            user:'postgres',
+            password:'allegro1234',
+            port:5434
+        },
+        pool:{
+            min: 2,
+            max: 10
+        },
+        migrations: {
+            tableName: 'knex_migrations',
+            directory: './migrations'
+        },
+        seeds: {
+            tableName: 'knex_seeds',
+            directory: './seeds'
+        }
+    },
     development: {
         client: 'postgresql',
         connection: {
