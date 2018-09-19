@@ -56,7 +56,6 @@ class MailController {
     async request_custom_domain({ response, request }) {
         const data = request.all();
         try {
-            debugger;
             await Mail.send('emails.request_custom_domain', { payload: JSON.stringify(data.payload, null, 4) }, (message) => {
                 message
                     .to('domain_request@origin.gg')
