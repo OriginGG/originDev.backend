@@ -6,9 +6,12 @@ const Env = use('Env')
 
 
 class StripeController {
+    async retrieve_plans({ response, request }) {
+        const p = await stripe.plans.list()
+        response.json(p);
+    }
     async create_subscription({ response, request }) {
         try {
-            debugger;
             const bd = request.all();
             // create a customer first.
             const customer_id = bd.customer_id;
