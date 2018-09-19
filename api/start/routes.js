@@ -30,6 +30,8 @@ Route.get('domain/get_domain_meta_info', 'DomainController.getdomainmetainfo')
 
 Route.get('emails/signup', 'MailController.signup')
 Route.get('emails/invite_ind', 'MailController.invite_ind')
+Route.post('emails/request_custom_domain', 'MailController.request_custom_domain')
+
 Route.get('access', 'DomainController.accessSite')
 
 Route.get('twitch/getTwitchStreams', 'TwitchController.getTwitchStreams')

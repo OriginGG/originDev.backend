@@ -53,6 +53,21 @@ class MailController {
         })
         response.json({ success: true });
     }
+    async request_custom_domain({ response, request }) {
+        const data = request.all();
+        try {
+            debugger;
+            await Mail.send('emails.request_custom_domain', { payload: JSON.stringify(data.payload, null, 4) }, (message) => {
+                message
+                    .to('domain_request@origin.gg')
+                    .from('platform@origin.gg')
+                    .subject(`New custom domain Request`)
+            })
+        }  catch(err) {
+            response.json({ success: false });
+        }
+        response.json({ success: true });
+    }
     async signup({ response, request }) {
         const data = request.only(['id','host', 'email', 'name', 'password', 'admin_user', 'token', 'dev'])
         let host = 'http://origin.gg';
