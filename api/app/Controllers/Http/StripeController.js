@@ -1,8 +1,7 @@
 'use strict'
-
-const stripe = require("stripe")("sk_test_Xc3IYeOkJ8ePvctNS9MmTpxk");
-const Database = use('Database');
 const Env = use('Env')
+const stripe = require("stripe")(Env.get('APP_STRIPE_SK_KEY'));
+const Database = use('Database');
 
 
 class StripeController {
