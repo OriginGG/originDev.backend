@@ -17,6 +17,7 @@ const Route = use('Route')
 
 Route.get('/', 'DomainController.accessSite')
 Route.post('upload/:folder', 'FileController.upload')
+Route.post('c_upload/', 'CloudinaryController.upload');
 Route.get('login/facebook', 'LoginController.redirect')
 Route.get('facebook/callback', 'LoginController.callback')
 Route.get('domain/create_domain_token', 'DomainController.createdomaintoken')

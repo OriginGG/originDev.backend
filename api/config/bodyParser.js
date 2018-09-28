@@ -107,7 +107,7 @@ module.exports = {
     | Also this value is considered when `autoProcess` is set to true.
     |
     */
-    maxSize: '20mb',
+    maxSize: '50mb',
 
     /*
     |--------------------------------------------------------------------------
@@ -133,7 +133,7 @@ module.exports = {
     | is to true. Otherwise everything is processed manually.
     |
     */
-    processManually: []
+    processManually: ['']
 
     /*
     |--------------------------------------------------------------------------
