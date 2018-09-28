@@ -9,17 +9,22 @@ const AWS = require('aws-sdk');
 
 class FileController {
     async upload({ response, request }) {
+        debugger;
         const filePics = request.file('images', {
             types: ['image'],
             size: '50mb'
         })
         const { folder } = request.params;
+        const fName = path.join(
+            Helpers.tmpPath('uploads'),
+            filePics.clientName
+        );
+        await removeFile(fName);
 
         await filePics.move(Helpers.tmpPath('uploads'));
         if (!filePics.moved()) {
             return filePics.errors()
         }
-        const fName = path.join(Helpers.tmpPath('uploads'), filePics.fileName);
         const data = await this.readFile(fName);
         // upload to s3 here..
         await removeFile(fName);

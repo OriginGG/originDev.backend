@@ -39,6 +39,7 @@ class CloudinaryController {
                     public_id: p_id,
                     overwrite: true
                 });
+                await removeFile(fName);
                 response.json(res);
             }
         } catch (error) {
