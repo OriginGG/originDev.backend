@@ -25,7 +25,10 @@ class CloudinaryController {
                     Helpers.tmpPath('uploads'),
                     filePics.clientName
                 );
-                await removeFile(fName);
+                const exists = fs.existsSync(fName);
+                if (exists) {
+                    await removeFile(fName);
+                }
                 await filePics.move(Helpers.tmpPath('uploads'));
                 if (!filePics.moved()) {
                     return filePics.errors();
