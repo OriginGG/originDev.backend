@@ -1,5 +1,8 @@
 {
   "dependencies": {
+    "oauth": "^0.9.15",
+    "oauth-1.0a": "^2.2.4",
+    "request": "^2.88.0",
     "stripe": "^6.11.0"
   }
 }

@@ -6,15 +6,18 @@ const axios = require('axios');
 
 
 class TwitterAuthController {
-  async getTwitterAccessToken({request,session}) {
-    const data = request.get();
-    const td = await axios.post('https://api.twitter.com/oauth/access_token',{
-        headers: {
-            oauth_token:'test',
-            oauth_token_secret:'test',
-            oauth_verifier:''
-        }
-    })
+  async twitterAuthorization({request,session,response,auth}) {
+    try{
+    //Grabs User details if Logged In
+    let user = await auth.getUser()
+    const token = await api.getToken('twitter', user.id);
+    if (token === null) {
+      response.redirect('/auth/twitter?redirect=' + request.originalUrl())
+    }
+    }catch(e){
+      console.log(e);
+      response.redirect('/signup_ind');
+    }
   }
 }
 
