@@ -6,7 +6,7 @@ exports.up = async function(knex) {
                 table.increments();
                 table.timestamps(true, true);
                 table.integer('game_id');
-                table.string('position_id');
+                table.integer('position_id');
                 table.string('sub_domain');
                 table.string('team_name');
                 table.string('roster_type');
