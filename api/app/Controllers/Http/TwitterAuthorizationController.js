@@ -6,6 +6,7 @@ const request = require('request');
 const OAuth   = require('oauth-1.0a');
 const crypto  = require('crypto');
 const url = require('url')
+const Twitter = require('twitter');
 
 class TwitterAuthorizationController{
     async getTwitterAuthToken({request,response,session, params}){
@@ -16,6 +17,16 @@ class TwitterAuthorizationController{
             response.redirect(`https://api.twitter.com/oauth/authorize?${token}`);
         // }
     }
+    async twitterRedirect({request,response, session})
+    {
+        const result = request.all()
+       const OauthTokenObject = await this.getTwitterAcessToken(result);
+       session.put('oauth_token',OauthTokenObject);
+        response.redirect(`http://localhost:3000/individual?p=${url.parse(request.originalUrl(), true).query.p}&token=${OauthTokenObject}`);
+
+    }
+
+
     
     readTwitterTokenFromServer(userToken) {
         return new Promise(async (resolve, reject) => {
@@ -46,12 +57,59 @@ class TwitterAuthorizationController{
             }    
         })
     }
-    async twitterRedirect({request,response, session})
+    
+    async getTwitterAcessToken(result)
     {
-        const result = request.all()
-        console.log(result)
-        response.redirect(`http://localhost:3000/individual?p=${url.parse(request.originalUrl(), true).query.p}`);
+        return new Promise(async (resolve, reject) => {
+            const url = `https://api.twitter.com/oauth/access_token?oauth_consumer_key=${Env.get('TWITTER_CONSUMER_KEY')}&oauth_token=${result.oauth_token}&oauth_verifier=${result.oauth_verifier}`;
+            try{
+                const td = await axios(url);
+                resolve(td.data);
+            }catch(error)
+            {
+                console.log(error);
+                resolve(null);
+            }
+        })
     }
+    async getTwitterUserInfo({session,response,request}) {
+        const data = request.all();
+        try {
+          const twitterData = await this.UserLookUp(data.screenname,data.oauth_token,data.tokensecret);
+          response.json(twitterData);
+    
+        } catch (err) {
+            console.log(err);
+          response.json({
+            success: false
+          });
+        }
+      }
+    
+    
+      UserLookUp(user,authtoken,tokensecret) {
+        var client = new Twitter({
+          consumer_key: `${Env.get('TWITTER_CONSUMER_KEY')}`,
+          consumer_secret: `${Env.get('TWITTER_CONSUMER_SECRET')}`,
+          access_token_key: authtoken,
+          access_token_secret: tokensecret  
+        });
+        var params = {
+          screen_name: `${user}`
+        };
+        return new Promise(async (resolve, reject) => {
+          client.get('users/lookup', params, (error, data, response) => {
+            if (error) {
+              reject(error);
+            } else {
+              resolve(data);
+            }
+          });
+        });
+      }
+    
+
+
     async getTwitterToken(session, request) {
         
         const p = session.get('twitch_auth_object')

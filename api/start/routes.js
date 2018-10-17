@@ -50,4 +50,5 @@ Route.get('stripe/retrieve_plans', 'StripeController.retrieve_plans')
 
 Route.get('auth/twitter','TwitterAuthorizationController.getTwitterAuthToken')
 Route.get('auth/twitter/redirect', 'TwitterAuthorizationController.twitterRedirect')
+Route.post('auth/twitter/data','TwitterAuthorizationController.getTwitterUserInfo')
 // Route.post('stripe/create_product_and_plans', 'StripeController.create_product_and_plans')
