@@ -71,7 +71,8 @@ services:
     container_name: nginx-dev-container
     environment:
       - VIRTUAL_HOST=www.originbeta.net,originbeta.net,*.originbeta.net
-      - CERT_NAME=originbeta
+      - LETSENCRYPT_HOST=originbeta.net
+      - LETSENCRYPT_EMAIL=stefan.walker@gmail.com
       - NODE_ENV=production
       - PROD=true
     ports:
@@ -86,14 +87,14 @@ services:
     network_mode: bridge
     container_name: api-dev-container
     environment:
-      - VIRTUAL_HOST=dev.originapi.com
+      - VIRTUAL_HOST=dev.api.originapi.com
       - NODE_ENV=production
       - PROD=true
       - HTTPS_METHOD=noredirect
-      - LETSENCRYPT_HOST=dev.originapi.com
+      - LETSENCRYPT_HOST=dev.api.originapi.com
       - LETSENCRYPT_EMAIL=stefan.walker@gmail.com
     ports:
-      - "3008:8080"
+      - "3008:80"
     command: "npm run start"  
   api_prod:
     build:
@@ -109,8 +110,24 @@ services:
       - LETSENCRYPT_HOST=api.originapi.com
       - LETSENCRYPT_EMAIL=stefan.walker@gmail.com
     ports:
-      - "3009:8080"
-    command: "npm run start"  
+      - "3009:80"
+    command: "npm run start-pm2"
+  aggregation_prod:
+    build:
+      context: ./api_aggregation
+      dockerfile: ./Dockerfile
+    network_mode: bridge
+    container_name: api-aggregation-container
+    environment:
+      - VIRTUAL_HOST=stats.originapi.com
+      - HTTPS_METHOD=noredirect
+      - NODE_ENV=production
+      - PROD=true
+      - LETSENCRYPT_HOST=stats.originapi.com
+      - LETSENCRYPT_EMAIL=stefan.walker@gmail.com
+    ports:
+      - "3010:80"
+    command: "npm run start"
   nginx_admin:
     build:
       context: ./graphql
