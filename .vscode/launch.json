@@ -9,13 +9,15 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}/api/server.js"
+            "program": "${workspaceFolder}/api/server.js",
+            "console":"integratedTerminal"
         },
         {
             "type": "node",
             "request": "launch",
             "name": "Sponsor Program",
-            "program": "${workspaceFolder}/graphql/database/sponsors_migrate.js"
+            "program": "${workspaceFolder}/graphql/database/rosters_migrate.js",
+            "console":"integratedTerminal"
         }
     ]
 }
