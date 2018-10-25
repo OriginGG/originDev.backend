@@ -6,39 +6,38 @@ const Database = use('Database');
 const Hash = use('Hash');
 
 class UserController {
-    async loginUser({ response, request, auth }) {
-        const p = request.post();
-        const user = await Database.from('users').where({ email: p.email } )
-        const { password_hash } = user[0];
-        if (user && user.length > 0) {
-            const isSame = await Hash.verify(p.password, password_hash)
-            // we are same.
-            if (isSame) {
-                const tkn = await auth.generate(user[0])
-                response.json({success: true, jwt: tkn})
-            } else {
-                response.json({ success: false });
-            }
-
-        } else {
-            response.json({ success: false });
-        }
-
-        
-    }
-    async graphqlRequest({ response, request, auth }) {
+    async getIndividualInformation({ response, request}) {
         try {
-            await auth.check();
             const p = request.post();
+            const { id } = p;
+            if (!id) {
+                throw ('ID not found')
+            }
             const bd = {
-                "query": p.data.query,
-                "variables": p.data.variables
+                "query": "mutation authenticate($email: String!, $password: String!) {  authenticate(input: {email: $email, password: $password}) {    authPayload {			jwtToken			userId			isAdmin			organisation		}  }}",
+                "variables": {
+                    email: 'cashflo@origin.gg',
+                    password: '12345678'
+                }
+            }
+            const bd_2 = {
+                "query": "query getIndividual($id: Int!) {  individualUserById(id: $id) {    firstName    lastName    about    email    contactNumber    updatedAt    createdAt		youtubeChannel    twitchUrl    twitchUserId		twitterHandle		accomplishments		youtubeVideo1Url		youtubeVideo2Url		youtubeVideo3Url    bannerImageUrl		profileImageUrl    facebookLink    instagramLink    username		id  }}",
+                "variables": {
+                    "id" : id
+                }
             }
             const td = await axios.post('https://graphql.originapi.com/graphql',
-                bd
+                bd, 
             );
-            response.json(td.data.data);
-        } catch(err) {
+            const token = td.data.data.authenticate.authPayload.jwtToken;
+            const td_2 = await axios.post('https://graphql.originapi.com/graphql',
+                bd_2,
+                {
+                    headers: { 'Authorization': `bearer ${token}` }
+                }
+            );
+            response.json(td_2.data.data);
+        } catch (err) {
             response.json({ success: false, error: err.code });
         }
     };
