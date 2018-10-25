@@ -48,6 +48,7 @@ Route.post('stripe/create_subscription', 'StripeController.create_subscription')
 Route.post('stripe/cancel_subscription', 'StripeController.cancel_subscription')
 Route.get('stripe/retrieve_plans', 'StripeController.retrieve_plans')
 Route.post('user/getIndividualInformation', 'UserController.getIndividualInformation')
+Route.post('user/getIndividualInformationHandle', 'UserController.getIndividualInformationHandle')
 
 Route.get('auth/twitter','TwitterAuthorizationController.getTwitterAuthToken')
 Route.get('auth/twitter/redirect', 'TwitterAuthorizationController.twitterRedirect')

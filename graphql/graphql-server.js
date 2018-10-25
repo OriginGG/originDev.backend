@@ -20,4 +20,4 @@ app.use(postgraphile(config.postgraphile.host, config.postgraphile.schema_name, 
     extendedErrors: ["hint", "detail", "errcode", "where"]
 }));
 
-app.listen(config.postgraphile.port || 5000, '0.0.0.0');
+app.listen(config.postgraphile.port || 80, '0.0.0.0');

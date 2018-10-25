@@ -29,7 +29,7 @@ services:
       - LETSENCRYPT_HOST=dev.graphql.originapi.com
       - LETSENCRYPT_EMAIL=stefan.walker@gmail.com
     ports:
-      - "5001:5001"
+      - "5001:80"
     command: "npm run start"
   postgraphile_prod:
     build:
@@ -45,7 +45,7 @@ services:
       - LETSENCRYPT_HOST=graphql.originapi.com
       - LETSENCRYPT_EMAIL=stefan.walker@gmail.com
     ports:
-      - "5000:5000"
+      - "5000:80"
     command: "npm run start"  
   nginx:
     build:
