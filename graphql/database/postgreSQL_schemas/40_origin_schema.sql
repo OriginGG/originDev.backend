@@ -44,7 +44,7 @@ grant insert (
     authenticated,
     subscribed,
     password_hash
-) on table origin.users to origin_user, origin_admin;
+) on table origin.users to origin_anonymous, origin_user, origin_admin;
 
 grant update (
     id,
