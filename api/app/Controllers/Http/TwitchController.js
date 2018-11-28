@@ -117,6 +117,63 @@ class TwitchController {
             response.json({ success: false });
         }
     }
+    async getTwitchTeamStream({ response, request ,session}) {
+        const data = request.only('teamname')
+        console.log(data.teamname);
+        const url = `https://api.twitch.tv/kraken/teams/${data.teamname}`;
+        try {
+            let userList = [];
+            const td = await axios.get(url, {
+                headers: {
+                    Accept: 'application/vnd.twitchtv.v5+json',
+                    "Client-ID": Env.get('TWITCH_CLIENT_ID')
+                }
+            });
+            
+            td.data.users.forEach(function(user)
+            {
+                userList.push(user._id);
+            })
+            console.log(userList);
+            const streamData = await this.getIndividualStreams(userList,session);
+            console.log(streamData);
+            response.json(streamData);
+        } catch (err) {
+            console.log(err);
+            response.json({ success: false });
+        }
+    }
+    getIndividualStreams(teamList,session)
+    {
+        return new Promise(async (resolve, reject) => {
+            let q_string = '';
+            teamList.forEach((p) => {
+                if (q_string === '') {
+                    q_string = `user_id=${p}`;
+                } else {
+                    q_string = `${q_string}&user_id=${p}`;
+                }
+            });
+            const url = `${Env.get('TWITCH_API')}/streams?${q_string}`;
+            const token = await this.getTwitchToken(session);
+            try {
+                const td = await axios.get(url, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+                if (td.data.data.length > 0) {
+                    resolve({ success: true, users: td.data.data });
+                } else {
+                    resolve({ success: false });
+                }
+            } catch (err) {
+                console.log(err);
+                resolve({ success: false });
+            }
+        }
+        )
+    }
     async getTwitchStreams({ session, response, request }) {
         const data = request.only('users')
         const { users } = data;
@@ -129,6 +186,7 @@ class TwitchController {
                 q_string = `${q_string}&user_id=${p}`;
             }
         });
+        console.log(q_string);
         const url = `${Env.get('TWITCH_API')}/streams?${q_string}`;
         const token = await this.getTwitchToken(session);
         try {
