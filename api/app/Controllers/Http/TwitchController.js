@@ -118,8 +118,11 @@ class TwitchController {
         }
     }
     async getTwitchTeamStream({ response, request ,session}) {
-        const data = request.only('teamname')
-        console.log(data.teamname);
+        const teamNameData = request.only(['teamname']);
+        console.log('team Name: ' + teamNameData.teamname);
+        const userNameData = request.only(['user']);
+        console.log('user Name: '+ userNameData.user);
+        if(teamNameData){
         const url = `https://api.twitch.tv/kraken/teams/${data.teamname}`;
         try {
             let userList = [];
@@ -142,7 +145,7 @@ class TwitchController {
             console.log(err);
             response.json({ success: false });
         }
-    }
+    }}
     getIndividualStreams(teamList,session)
     {
         return new Promise(async (resolve, reject) => {
