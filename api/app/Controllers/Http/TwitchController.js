@@ -118,9 +118,10 @@ class TwitchController {
         }
     }
     async getTwitchTeamStream({ response, request ,session}) {
-        const data = request.only(['teamname','users']);
-        if(data.teamname){
-        const url = `https://api.twitch.tv/kraken/teams/${data.teamname}`;
+        const data = request.only(['teamurl','users']);
+        if(data.teamurl){
+        const teamOfficialName = data.teamurl.substring(data.teamurl.lastIndexOf('/') + 1);
+        const url = `https://api.twitch.tv/kraken/teams/${teamOfficialName}`;
         try {
             let userList = [];
             const td = await axios.get(url, {
