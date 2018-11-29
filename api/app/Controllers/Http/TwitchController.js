@@ -157,7 +157,7 @@ class TwitchController {
                 }
             })
 
-            response.json(allUsersData);
+            response.json({success:true,data:allUsersData});
         } catch (err) {
             console.log(err);
             response.json({ success: false });
@@ -202,7 +202,7 @@ class TwitchController {
                 if (td.data.data.length > 0) {
                     resolve({ success: true, users: td.data.data });
                 } else {
-                    resolve({ success: false,status: 'not live' });
+                    resolve({ status: 'not live' });
                 }
             } catch (err) {
                 console.log(err);
