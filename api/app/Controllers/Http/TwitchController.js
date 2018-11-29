@@ -118,9 +118,10 @@ class TwitchController {
         }
     }
     async getTwitchTeamStream({ response, request ,session}) {
-        const data = request.only('teamname')
-        console.log(data.teamname);
-        const url = `https://api.twitch.tv/kraken/teams/${data.teamname}`;
+        const data = request.only(['teamurl','users']);
+        if(data.teamurl){
+        const teamOfficialName = data.teamurl.substring(data.teamurl.lastIndexOf('/') + 1);
+        const url = `https://api.twitch.tv/kraken/teams/${teamOfficialName}`;
         try {
             let userList = [];
             const td = await axios.get(url, {
@@ -129,20 +130,56 @@ class TwitchController {
                     "Client-ID": Env.get('TWITCH_CLIENT_ID')
                 }
             });
-            
+            const allUsersData = td.data;
+
             td.data.users.forEach(function(user)
             {
                 userList.push(user._id);
-            })
-            console.log(userList);
+            });
             const streamData = await this.getIndividualStreams(userList,session);
-            console.log(streamData);
-            response.json(streamData);
+            let DataMap = {};
+            streamData.users.forEach(function(user)
+            {
+                DataMap[user.user_id.toString()] = user.thumbnail_url;
+
+            });
+            allUsersData.users.forEach(function(user)
+            {   
+
+                if(Object.keys(DataMap).includes(user._id.toString())){
+                  
+                    user['thumbnail_url'] = DataMap[user._id];
+                    user['live'] = true
+                }else
+                {
+                    user['thumbnail_url'] = null;
+                    user['live'] = false;
+                }
+            })
+
+            response.json(allUsersData);
         } catch (err) {
             console.log(err);
             response.json({ success: false });
         }
     }
+    else if(data.users)
+    {
+        try{  
+        const { users } = data;
+        const p_array = users.split(',');
+        const userData = await this.getIndividualStreams(p_array,session);
+        response.json({ success: true, users: userData});
+        }catch(error)
+        {
+            console.log(error);
+            response.json({
+                'success':false,
+                'error':error
+            })
+        }
+    }
+}
     getIndividualStreams(teamList,session)
     {
         return new Promise(async (resolve, reject) => {
@@ -165,11 +202,11 @@ class TwitchController {
                 if (td.data.data.length > 0) {
                     resolve({ success: true, users: td.data.data });
                 } else {
-                    resolve({ success: false });
+                    resolve({ success: false,status: 'not live' });
                 }
             } catch (err) {
                 console.log(err);
-                resolve({ success: false });
+                resolve({ success: false ,err:err});
             }
         }
         )
