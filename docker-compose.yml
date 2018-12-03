@@ -62,7 +62,7 @@ services:
       - "3001:3001"
     volumes:
       - ./frontend/prod/build:/applications_wwwroot_prod
-      - ./frontend/prod/html/landing:/applications_wwwroot_prod_landing
+      - ./frontend/prod_landing:/applications_wwwroot_prod_landing
   nginx_dev:
     build:
       context: ./graphql
@@ -79,7 +79,7 @@ services:
       - "3002:3002"
     volumes:
       - ~/applications/frontend/dev/build:/applications_wwwroot_dev 
-      - ~/applications/frontend/dev/html/landing:/applications_wwwroot_dev_landing
+      - ~/applications/frontend/dev_landing:/applications_wwwroot_dev_landing
   api_dev:
     build:
       context: ./api_dev
