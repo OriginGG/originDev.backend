@@ -138,6 +138,8 @@ class TwitchController {
             });
             const streamData = await this.getIndividualStreams(userList,session);
             let DataMap = {};
+            if(streamData.users)
+            {
             streamData.users.forEach(function(user)
             {
                 DataMap[user.user_id.toString()] = user.thumbnail_url;
@@ -158,6 +160,17 @@ class TwitchController {
             })
 
             response.json({success:true,data:allUsersData});
+        }else
+        {
+            allUsersData.users.forEach(function(user)
+            {   
+
+                    user['thumbnail_url'] = null;
+                    user['live'] = false;
+                })
+            
+            response.json({success:true,data:allUsersData});
+        }
         } catch (err) {
             console.log(err);
             response.json({ success: false });
@@ -211,36 +224,36 @@ class TwitchController {
         }
         )
     }
-    async getTwitchStreams({ session, response, request }) {
-        const data = request.only('users')
-        const { users } = data;
-        const p_array = users.split(',');
-        let q_string = '';
-        p_array.forEach((p) => {
-            if (q_string === '') {
-                q_string = `user_id=${p}`;
-            } else {
-                q_string = `${q_string}&user_id=${p}`;
-            }
-        });
-        console.log(q_string);
-        const url = `${Env.get('TWITCH_API')}/streams?${q_string}`;
-        const token = await this.getTwitchToken(session);
-        try {
-            const td = await axios.get(url, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-            if (td.data.data.length > 0) {
-                response.json({ success: true, users: td.data.data });
-            } else {
-                response.json({ success: false });
-            }
-        } catch (err) {
-            console.log(err);
-            response.json({ success: false });
-        }
-    }
+    // async getTwitchStreams({ session, response, request }) {
+    //     const data = request.only('users')
+    //     const { users } = data;
+    //     const p_array = users.split(',');
+    //     let q_string = '';
+    //     p_array.forEach((p) => {
+    //         if (q_string === '') {
+    //             q_string = `user_id=${p}`;
+    //         } else {
+    //             q_string = `${q_string}&user_id=${p}`;
+    //         }
+    //     });
+    //     console.log(q_string);
+    //     const url = `${Env.get('TWITCH_API')}/streams?${q_string}`;
+    //     const token = await this.getTwitchToken(session);
+    //     try {
+    //         const td = await axios.get(url, {
+    //             headers: {
+    //                 Authorization: `Bearer ${token}`
+    //             }
+    //         });
+    //         if (td.data.data.length > 0) {
+    //             response.json({ success: true, users: td.data.users });
+    //         } else {
+    //             response.json({ success: false });
+    //         }
+    //     } catch (err) {
+    //         console.log(err);
+    //         response.json({ success: false });
+    //     }
+    // }
 }
 module.exports = TwitchController
