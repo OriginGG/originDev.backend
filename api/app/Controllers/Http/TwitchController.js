@@ -138,6 +138,8 @@ class TwitchController {
             });
             const streamData = await this.getIndividualStreams(userList,session);
             let DataMap = {};
+            if(streamData.users)
+            {
             streamData.users.forEach(function(user)
             {
                 DataMap[user.user_id.toString()] = user.thumbnail_url;
@@ -158,6 +160,17 @@ class TwitchController {
             })
 
             response.json({success:true,data:allUsersData});
+        }else
+        {
+            allUsersData.users.forEach(function(user)
+            {   
+
+                    user['thumbnail_url'] = null;
+                    user['live'] = false;
+                })
+            
+            response.json({success:true,data:allUsersData});
+        }
         } catch (err) {
             console.log(err);
             response.json({ success: false });
@@ -233,7 +246,7 @@ class TwitchController {
                 }
             });
             if (td.data.data.length > 0) {
-                response.json({ success: true, users: td.data.data });
+                response.json({ success: true, users: td.data.users });
             } else {
                 response.json({ success: false });
             }
