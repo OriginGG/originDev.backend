@@ -1,11 +1,13 @@
 const express = require('express');
 const { postgraphile } = require('postgraphile');
+const ConnectionFilterPlugin = require("postgraphile-plugin-connection-filter");
 const config = require('./config/index');
 
 const app = express();
 
 
 app.use(postgraphile(config.postgraphile.host, config.postgraphile.schema_name, {
+    appendPlugins: [ConnectionFilterPlugin],
     pgDefaultRole: config.postgraphile.default_role,
     enableCors: true,
     jwtSecret: config.postgraphile.jwt_secret,
