@@ -7,4 +7,5 @@ postgraphile \
     --default-role $POSTGRAPHILE_DEFAULT_ROLE \
     --jwt-secret $POSTGRAPHILE_JWT_SECRET \
     --token $POSTGRAPHILE_JWT_TOKEN \
+    --append-plugins postgraphile-plugin-connection-filter \
     -o 

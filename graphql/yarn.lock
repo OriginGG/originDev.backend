@@ -1297,6 +1297,10 @@ postgraphile-core@4.0.1:
     graphile-build "4.0.0"
     graphile-build-pg "4.0.1"
 
+postgraphile-plugin-connection-filter@^1.0.0-beta.22:
+  version "1.0.0-beta.22"
+  resolved "https://registry.yarnpkg.com/postgraphile-plugin-connection-filter/-/postgraphile-plugin-connection-filter-1.0.0-beta.22.tgz#40006e574fa12d0194d1980934594f4b6a229c08"
+
 postgraphile@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/postgraphile/-/postgraphile-4.0.1.tgz#28e10d7800d682fa73c176d1dda0b8d5e8b98c92"
