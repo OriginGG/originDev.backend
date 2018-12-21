@@ -22,12 +22,6 @@ class DomainController {
         response.send(domain[0])
     }
 
-    async getdomainmetainfo({ response, request }) {
-        const q = request.all();
-        const domain = await Database.from('themes').where('theme_name', q.domain)
-        const info = await Database.from('organisation_account').where('sub_domain', q.domain)
-        response.send({ theme_data: domain[0], domain_info: info[0] });
-    }
 
     async createdomaintokensingle({ params, response, request }) {
         const p = request.all();
@@ -95,19 +89,17 @@ class DomainController {
                     const token = el.substring(13, el.length);
                     const domain = await Database.from('organisation_account').where('domain_uuid_token', token)
                     if (domain && domain.length > 0) {
-                        response.json(domain[0]);
-                        console.log(domain[0]);
+                        const theme = await Database.from('themes').where('theme_name', domain[0].sub_domain)
+                        response.json({ success: true, theme: theme[0], domain: domain[0] });
                     } else {
-                        response.json({ token: null });
+                        response.json({ success: false, theme: {}, domain: {} });
                     }
                 }
             }
             if (!fnd) {
-                response.json({ token: null });
-                
+                response.json({ success: false, theme: {}, domain: {} });
             }
         } else {
-            console.log({ token: null, host });
             response.json({ token: null });
         }
        

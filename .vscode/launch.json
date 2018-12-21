@@ -18,6 +18,13 @@
             "name": "Sponsor Program",
             "program": "${workspaceFolder}/graphql/database/rosters_migrate.js",
             "console":"integratedTerminal"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Migrate ORG",
+            "program": "${workspaceFolder}/graphql/database/organisations_migrate.js",
+            "console": "integratedTerminal"
         }
     ]
 }
