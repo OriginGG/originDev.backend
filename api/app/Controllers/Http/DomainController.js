@@ -93,7 +93,7 @@ class DomainController {
                 if (el) {
                     fnd = true;
                     const token = el.substring(13, el.length);
-                    const domain = await Database.from('domain_registration').where('token', token)
+                    const domain = await Database.from('organisation_account').where('domain_uuid_token', token)
                     if (domain && domain.length > 0) {
                         response.json(domain[0]);
                         console.log(domain[0]);
