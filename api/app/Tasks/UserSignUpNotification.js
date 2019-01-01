@@ -5,11 +5,12 @@ const dbNotificationController = require('../Controllers/Http/DBNotificationCont
 
 class UserSignUpNotification extends Task {
   static get schedule () {
-    return '0 * */1 * * *'
+    return '0 7 */1 * * *'
   }
 
   async handle () {
-    dbNotificationController.prototype.dbNotification;
+    this.info('this is working');
+    dbNotificationController.prototype.dbNotification();
   }
 }
 
