@@ -15,6 +15,13 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "DB Notification",
+            "program": "${workspaceFolder}/api/app/Controllers/Http/DBNotificationController.js",
+            "console":"integratedTerminal"
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "Sponsor Program",
             "program": "${workspaceFolder}/graphql/database/rosters_migrate.js",
             "console":"integratedTerminal"
