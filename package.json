@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "adonis-scheduler": "^3.0.2",
     "oauth": "^0.9.15",
     "oauth-1.0a": "^2.2.4",
     "request": "^2.88.0",

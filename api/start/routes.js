@@ -54,3 +54,4 @@ Route.get('auth/twitter/redirect', 'TwitterAuthorizationController.twitterRedire
 Route.post('auth/twitter/data','TwitterAuthorizationController.getTwitterUserInfo')
 // Route.post('stripe/create_product_and_plans', 'StripeController.create_product_and_plans')
 Route.get('twitch/get-team-member','TwitchController.getTwitchTeamStream')
+Route.get('dbtest','DBNotificationController.dbNotification')
