@@ -79,7 +79,7 @@ module.exports = {
         },
         migrations: {
             tableName: 'knex_migrations',
-            directory: './migrations'
+            directory: './migrations/new'
         },
         seeds: {
             tableName: 'knex_seeds',

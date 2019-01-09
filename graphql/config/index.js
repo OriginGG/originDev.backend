@@ -3,6 +3,8 @@ const path = require('path');
 const NODE_ENV = process.env.NODE_ENV;
 let configBuffer = null;
 
+
+console.log('Environment =', NODE_ENV);
 // Init config_buffer according to the NODE_ENV
 switch (NODE_ENV) {
     case 'production':
