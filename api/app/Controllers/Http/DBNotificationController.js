@@ -19,7 +19,7 @@ class DBNotificationController {
     } catch (error) {
       console.log(error);
       axios.post(`${Env.get('SLACK_DATABASE_NOTIFICATION_WEBHOOK')}`, {
-        'text': `*New User Signup* : ${error.message}`
+        'text': `* ${newSignUp.length} of New Users Signup : *: ${error.message}`
       });
     }
   }
