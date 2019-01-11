@@ -56,3 +56,5 @@ Route.post('auth/twitter/data','TwitterAuthorizationController.getTwitterUserInf
 Route.get('twitch/get-team-member','TwitchController.getTwitchTeamStream')
 Route.get('dbcron','DBNotificationController.startNotifyCron')
 Route.get('stopdbcron','DBNotificationController.stopNotifyCron')
+Route.get('startcleanup','DatabaseCleanUp.startCleanUp')
+Route.get('stopcleanup','DatabaseCleanUp.stopCleanUp')
