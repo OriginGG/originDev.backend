@@ -6,7 +6,7 @@ const axios = require('axios');
 
 class DBNotificationController {
   async startNotifyCron() {
-    var j = schedule.scheduleJob('dbNotifiy','0 0 10 * * *', async() => {
+    var j = schedule.scheduleJob('dbNotifiy','00 00 16 * * 0-6', async() => {
     try {
       const users = await Database.raw(`SELECT * FROM USERS WHERE users.created_at > current_TIMESTAMP - INTERVAL '1 day'`);
       const newSignUp = users.rows;
@@ -15,12 +15,12 @@ class DBNotificationController {
         signUpStr += `*Organization* : ${row.organisation}\n*Create Time* : ${row.created_at}\n*First Name* : ${row.first_name}\n*Last Name* : ${row.last_name}\n*Email* : ${row.email} \n*Authenticated* : ${row.authenticated} \n\n\n\n`;
       });
       console.log(newSignUp);
-      await axios.post(`${Env.get('SLACK_DATABASE_NOTIFICATION_WEBHOOK')}`, {
+      await axios.post(`${Env.get('SLACK_TEST_WEBHOOK')}`, {
         'text': signUpStr
       });
     } catch (error) {
       console.log(error);
-      axios.post(`${Env.get('SLACK_DATABASE_NOTIFICATION_WEBHOOK')}`, {
+      axios.post(`${Env.get('SLACK_TEST_WEBHOOK')}`, {
         'text': `* ${newSignUp.length} of New Users Signup : *: ${error.message}`
       });
     }
