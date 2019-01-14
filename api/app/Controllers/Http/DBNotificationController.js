@@ -6,7 +6,7 @@ const axios = require('axios');
 
 class DBNotificationController {
   async startNotifyCron() {
-    var j = schedule.scheduleJob('dbNotifiy','00 00 16 * * 0-6', async() => {
+    var j = schedule.scheduleJob('dbNotifiy','0 0 15 ? * * *', async() => {
     try {
       const users = await Database.raw(`SELECT * FROM USERS WHERE users.created_at > current_TIMESTAMP - INTERVAL '1 day'`);
       const newSignUp = users.rows;
