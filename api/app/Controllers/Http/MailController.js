@@ -38,18 +38,18 @@ class MailController {
         response.json({ success: true });
     }
     async invite_ind({ response, request }) {
-        const data = request.only(['host', 'email', 'organisation'])
+        const data = request.only(['host', 'email', 'organisation_id', 'organisation_name'])
         let host = 'http://origin.gg';
         if (data.host) {
             host = data.host;
         } 
         const payload = Buffer.from(JSON.stringify(data), 'utf8').toString('hex');
         const url = `${host}/ind_invite?ipl=${payload}`;
-        await Mail.send('emails.ind_invite', { organization_url: url, organisation: data.organisation, email: data.email }, (message) => {
+        await Mail.send('emails.ind_invite', { organization_url: url, organisation_id: data.organisation_id, email: data.email }, (message) => {
             message
                 .to(data.email)
                 .from('admin@origin.gg')
-                .subject(`Invite to ${data.organisation}`)
+                .subject(`Invite to ${data.organisation_name}`)
         })
         response.json({ success: true });
     }

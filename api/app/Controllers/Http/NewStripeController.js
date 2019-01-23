@@ -63,11 +63,16 @@ class StripeController {
         const exists = await Database.from('stripe_customers').where('customer_id_token', customer)
         if (exists.length > 0) {
             const user = await Database.from('users').where('id', exists[0].user_id);
-            await Database
-                .table('users')
-                .where('id', user[0].id)
-                .update('subscribed', false);
-            response.json({ status: "subscription_cancelled" });
+            if (user.length > 0) {
+                await Database
+                    .table('users')
+                    .where('id', user[0].id)
+                    .update('subscribed', false);
+                response.json({ status: "subscription_cancelled" });
+            }
+            else {
+                response.json({ status: "customer found, but no associated user!" });
+            }
         } else {
             response.json({ status: "error - customer not found!" });
 

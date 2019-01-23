@@ -57,7 +57,7 @@ begin
   from origin.individual_users as a
   where a.email = $1;
   if account.password_hash = crypt(password, account.password_hash) then
-    	return (('origin_individual_user', account.id, account.email)::origin.jwt_token, account.id, account.authenticated);
+    	return (('origin_individual_user', account.id, 0)::origin.jwt_token, account.id, account.authenticated);
     else
         return null;
   end if;

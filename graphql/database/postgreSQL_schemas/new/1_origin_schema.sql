@@ -12,9 +12,6 @@ create extension if not exists "pgcrypto";
 -- create a function to see if person already exists.
 
 
-
-
-
 DO $$
 BEGIN
     IF NOT EXISTS (SELECT 1 FROM pg_roles WHERE rolname = 'origin_postgraphql') THEN

@@ -8,8 +8,23 @@ const knex_new = require('knex')(config_new);
 do_migration();
 
 
+let organisation_array = [];
+
+const find_org_id = (sub_domain) => {
+    const m = organisation_array.find(o => {
+        return o.sub_domain === sub_domain;
+    })
+    if (m) {
+        return [m];
+    } return [];
+    
+}
+
+
 async function do_migration() {
+    await knex_new.raw('create schema origin;'),
     await migrate_orgs();
+    await grab_new_orgs();
     await migrate_blogs();
     await migrate_combined_rosters();
     await migrate_individuals();
@@ -18,6 +33,7 @@ async function do_migration() {
     await migrate_members();
     await migrate_content_team();
     await migrate_users();
+    await migrate_stripe_customers();
     await migrate_email_touch();
     await migrate_org_sponsors();
     await migrate_pages();
@@ -28,11 +44,11 @@ async function do_migration() {
     await migrate_sponsors();
     await migrate_staff();
     await migrate_staff_individuals();
-    await migrate_stripe_customers();
     await migrate_themes();
     await migrate_twitch_channels();
     await migrate_youtube_channels();
     await migrate_domain_registration();
+    return process.exit(0)
 };
 
 async function migrate_domain_registration() {
@@ -50,9 +66,9 @@ async function migrate_domain_registration() {
                             table.string('host')
                         })
                     for (let i = 0; i < results.length; i++) {
-                        await knex_new(t).insert(results[i]);
                         console.log(`Completed ${t} ${i + 1} of ${results.length}`);
                     }
+                    await knex_new(t).insert(results);
                 }
                 console.log('Completed Domain Registration')
                 resolve(true);
@@ -75,16 +91,19 @@ async function migrate_twitch_channels() {
                             table.integer('organisation_id').references('id').inTable('origin.organisation_account')
                             table.string('channel_name')
                         })
+                    const i_array = [];
                     for (let i = 0; i < results.length; i++) {
-                        const k = await knex_new.from('organisation_account').select('*').where('sub_domain', '=', results[i].organisation);
+                        const k = find_org_id(results[i].organisation);
                         const n = results[i];
                         if (k.length !== 0) {
                             n.organisation_id = k[0].id
                             // find the org account;
-                            await knex_new(t).insert(n);
+                            i_array.push(n);
                         }
                         console.log(`Completed ${t} ${i + 1} of ${results.length}`);
                     }
+                    await knex_new(t).insert(i_array);
+
                 }
                 console.log('Completed Twitch Channels')
                 resolve(true);
@@ -110,17 +129,19 @@ async function migrate_youtube_channels() {
                             table.string('youtube_video_3')
                             table.string('youtube_video_4')
                         })
+                    const i_array = [];
                     for (let i = 0; i < results.length; i++) {
-                        const k = await knex_new.from('organisation_account').select('*').where('sub_domain', '=', results[i].organisation);
+                        const k = find_org_id(results[i].organisation);
                         const n = results[i];
                         if (k.length !== 0) {
                             n.organisation_id = k[0].id
                             delete n.organisation;
                             // find the org account;
-                            await knex_new(t).insert(n);
+                            i_array.push(n);
                         }
                         console.log(`Completed ${t} ${i + 1} of ${results.length}`);
                     }
+                    await knex_new(t).insert(i_array);
                 }
                 console.log('Completed YouTube Channels')
                 resolve(true);
@@ -147,16 +168,19 @@ async function migrate_themes() {
                             table.jsonb('theme_data');
                             table.jsonb('theme_structure');
                         })
+                    const i_array = [];
                     for (let i = 0; i < results.length; i++) {
-                        const k = await knex_new.from('organisation_account').select('*').where('sub_domain', '=', results[i].theme_name);
+                        const k = find_org_id(results[i].theme_name);
                         const n = results[i];
                         if (k.length !== 0) {
                             n.organisation_id = k[0].id
                             // find the org account;
-                            await knex_new(t).insert(n);
+                            i_array.push(n);
                         }
                         console.log(`Completed ${t} ${i + 1} of ${results.length}`);
                     }
+                    await knex_new(t).insert(i_array);
+
                 }
                 console.log('Completed Themes')
                 resolve(true);
@@ -187,7 +211,11 @@ async function migrate_stripe_customers() {
                             table.string('email');
                         })
                     for (let i = 0; i < results.length; i++) {
-                        await knex_new(t).insert(results[i]);
+                        try {
+                            await knex_new(t).insert(results[i]);
+                        } catch (err) {
+                            console.log(`Cant insert stripe customer: ${t}`);
+                        }
                         console.log(`Completed ${t} ${i + 1} of ${results.length}`);
                     }
                 }
@@ -214,9 +242,9 @@ async function migrate_staff_individuals() {
                             table.integer('staff_id').references('id').inTable('origin.staff')
                         })
                     for (let i = 0; i < results.length; i++) {
-                        await knex_new(t).insert(results[i]);
                         console.log(`Completed ${t} ${i + 1} of ${results.length}`);
                     }
+                    await knex_new(t).insert(results);
                 }
                 console.log('Completed Staff Individuals')
                 resolve(true);
@@ -257,17 +285,20 @@ async function migrate_sponsors() {
                             table.text('sponsor_name3')
                             table.text('sponsor_name4')
                         })
+                    const i_array = [];
                     for (let i = 0; i < results.length; i++) {
-                        const k = await knex_new.from('organisation_account').select('*').where('sub_domain', '=', results[i].organisation);
+                        const k = find_org_id(results[i].organisation);
                         const n = results[i];
                         if (k.length !== 0) {
                             delete n.organisation;
                             n.organisation_id = k[0].id
                             // find the org account;
-                            await knex_new(t).insert(n);
+                            i_array.push(n);
                         }
                         console.log(`Completed ${t} ${i + 1} of ${results.length}`);
                     }
+                    await knex_new(t).insert(i_array);
+
                 }
                 console.log('Completed Sponsors')
                 resolve(true);
@@ -292,17 +323,20 @@ async function migrate_staff() {
                             table.integer('position_id')
                             table.integer('organisation_id').references('id').inTable('origin.organisation_account')
                         })
+                    const i_array = [];
                     for (let i = 0; i < results.length; i++) {
-                        const k = await knex_new.from('organisation_account').select('*').where('sub_domain', '=', results[i].sub_domain);
+                        const k = find_org_id(results[i].sub_domain);
                         const n = results[i];
                         if (k.length !== 0) {
                             delete n.sub_domain;
                             n.organisation_id = k[0].id
                             // find the org account;
-                            await knex_new(t).insert(n);
+                            i_array.push(n);
                         }
                         console.log(`Completed ${t} ${i + 1} of ${results.length}`);
                     }
+                    await knex_new(t).insert(i_array);
+
                 }
                 console.log('Completed Staff')
                 resolve(true);
@@ -329,9 +363,9 @@ async function migrate_roster_individuals() {
                             table.integer('roster_id').references('id').inTable('origin.rosters')
                         })
                     for (let i = 0; i < results.length; i++) {
-                        await knex_new(t).insert(results[i]);
                         console.log(`Completed ${t} ${i + 1} of ${results.length}`);
                     }
+                    await knex_new(t).insert(results);
                 }
                 console.log('Completed Roster Individuals')
                 resolve(true);
@@ -351,15 +385,14 @@ async function migrate_registration_emails() {
                     await knex_new.schema
                         .withSchema('origin')
                         .createTable(t, table => {
-                            table.increments();
                             table.timestamps(true, true);
-                            table.string('email')
+                            table.string('email').primary();
                             table.text('payload')
                         })
                     for (let i = 0; i < results.length; i++) {
-                        await knex_new(t).insert(results[i]);
                         console.log(`Completed ${t} ${i + 1} of ${results.length}`);
                     }
+                    await knex_new(t).insert(results);
                 }
                 console.log('Completed Registration Emails')
                 resolve(true);
@@ -394,17 +427,19 @@ async function migrate_recent_matches() {
                             table.integer('organisation_id').references('id').inTable('origin.organisation_account')
 
                         })
+                    const i_array = [];
                     for (let i = 0; i < results.length; i++) {
-                        const k = await knex_new.from('organisation_account').select('*').where('sub_domain', '=', results[i].organisation);
+                        const k = find_org_id(results[i].organisation);
                         const n = results[i];
                         if (k.length !== 0) {
                             delete n.organisation;
                             n.organisation_id = k[0].id
                             // find the org account;
-                            await knex_new(t).insert(n);
+                            i_array.push(n);
                         }
                         console.log(`Completed ${t} ${i + 1} of ${results.length}`);
                     }
+                    await knex_new(t).insert(i_array);
                 }
                 console.log('Completed Recent Matches')
                 resolve(true);
@@ -436,10 +471,10 @@ async function migrate_pre_users() {
                         })
                     for (let i = 0; i < results.length; i++) {
                         // find the org account;
-                        await knex_new(t).insert(results[i]);
                         console.log(`Completed ${t} ${i + 1} of ${results.length}`);
 
                     }
+                    await knex_new(t).insert(results);
                 }
                 console.log('Completed Pre Users')
                 resolve(true);
@@ -468,18 +503,21 @@ async function migrate_pages() {
                             table.string('page_title')
                             table.integer('organisation_id').references('id').inTable('origin.organisation_account')
                         })
+                    const i_array = [];
                     for (let i = 0; i < results.length; i++) {
-                        const k = await knex_new.from('organisation_account').select('*').where('sub_domain', '=', results[i].organisation);
+                        const k = find_org_id(results[i].organisation);
                         const n = results[i];
                         if (k.length !== 0) {
                             delete n.organisation;
                             n.organisation_id = k[0].id
                             // find the org account;
-                            await knex_new(t).insert(n);
+                            i_array.push(n);
                         }
                         console.log(`Completed ${t} ${i + 1} of ${results.length}`);
 
                     }
+                    await knex_new(t).insert(i_array);
+
                 }
                 console.log('Completed Pages')
                 resolve(true);
@@ -508,18 +546,20 @@ async function migrate_org_sponsors() {
                             table.string('bg_images')
                             table.integer('organisation_id').references('id').inTable('origin.organisation_account')
                         })
+                    const i_array = [];
                     for (let i = 0; i < results.length; i++) {
-                        const k = await knex_new.from('organisation_account').select('*').where('sub_domain', '=', results[i].organisation);
+                        const k = find_org_id(results[i].organisation);
                         const n = results[i];
                         if (k.length !== 0) {
                             delete n.organisation;
                             n.organisation_id = k[0].id
                             // find the org account;
-                            await knex_new(t).insert(n);
+                            i_array.push(n);
                         }
                         console.log(`Completed ${t} ${i + 1} of ${results.length}`);
 
                     }
+                    await knex_new(t).insert(i_array);
                 }
                 console.log('Completed Org Sponsors')
                 resolve(true);
@@ -579,18 +619,20 @@ async function migrate_users() {
                             table.string('last_name')
                             table.integer('organisation_id').references('id').inTable('origin.organisation_account')
                         })
+                    const i_array = [];
                     for (let i = 0; i < results.length; i++) {
-                        const k = await knex_new.from('organisation_account').select('*').where('sub_domain', '=', results[i].organisation);
+                        const k = find_org_id(results[i].organisation);
                         const n = results[i];
                         if (k.length !== 0) {
                             delete n.organisation;
                             n.organisation_id = k[0].id
                             // find the org account;
-                            await knex_new(t).insert(n);
+                            i_array.push(n);
                         }
                         console.log(`Completed ${t} ${i + 1} of ${results.length}`);
 
                     }
+                    await knex_new(t).insert(i_array);
                 }
                 console.log('Completed Users')
                 resolve(true);
@@ -615,10 +657,9 @@ async function migrate_content_team() {
                         })
                     for (let i = 0; i < results.length; i++) {
                         // find the org account;
-                        await knex_new(t).insert(results[i]);
                         console.log(`Completed ${t} ${i + 1} of ${results.length}`);
-
                     }
+                    await knex_new(t).insert(results);
                 }
                 console.log('Completed Content Team')
                 resolve(true);
@@ -644,16 +685,17 @@ async function migrate_members() {
                             table.integer('individal_user_id').references('id').inTable('origin.individual_users')
                             table.string('host')
                         })
+                    const i_array = [];
                     for (let i = 0; i < results.length; i++) {
-                        const k = await knex_new.from('organisation_account').select('*').where('sub_domain', '=', results[i].organisation);
+                        const k = find_org_id(results[i].organisation);
                         const n = results[i];
                         delete n.organisation;
                         n.organisation_id = k[0].id
                         // find the org account;
-                        await knex_new(t).insert(n);
+                        i_array.push(n);
                         console.log(`Completed ${t} ${i + 1} of ${results.length}`);
-
                     }
+                    await knex_new(t).insert(i_array);
                 }
                 console.log('Completed Members')
                 resolve(true);
@@ -679,16 +721,17 @@ async function migrate_rosters() {
                             table.integer('organisation_id').references('id').inTable('origin.organisation_account')
                             table.string('team_name')
                         })
+                    const i_array = [];
                     for (let i = 0; i < results.length; i++) {
-                        const k = await knex_new.from('organisation_account').select('*').where('sub_domain', '=', results[i].sub_domain);
+                        const k = find_org_id(results[i].sub_domain);
                         const n = results[i];
                         delete n.sub_domain;
                         n.organisation_id = k[0].id
                         // find the org account;
-                        await knex_new(t).insert(n);
+                        i_array.push(n);
                         console.log(`Completed ${t} ${i + 1} of ${results.length}`);
-
                     }
+                    await knex_new(t).insert(i_array);
                 }
                 console.log('Completed Roster')
                 resolve(true);
@@ -715,11 +758,11 @@ async function migrate_individuals() {
                             table.text('banner_image_url')
                             table.string('contact_email')
                             table.string('contact_number')
-                            table.string('email')
+                            table.string('email').notNull().unique();
+                            table.string('password_hash').notNull();
                             table.string('facebook_link')
                             table.string('first_name')
                             table.string('last_name')
-                            table.string('password_hash')
                             table.string('instagram_link')
                             table.text('profile_image_url')
                             table.string('twitch_url')
@@ -733,10 +776,10 @@ async function migrate_individuals() {
                         })
                     for (let i = 0; i < results.length; i++) {
                         // find the org account;
-                        await knex_new(t).insert(results[i]);
                         console.log(`Completed ${t} ${i + 1} of ${results.length}`);
 
                     }
+                    await knex_new(t).insert(results);
                 }
                 console.log('Completed Individuals')
                 resolve(true);
@@ -763,10 +806,10 @@ async function migrate_combined_roster_individuals() {
                         })
                     for (let i = 0; i < results.length; i++) {
                         // find the org account;
-                        await knex_new('combined_roster_individuals').insert(results[i]);
                         console.log(`Completed ${i + 1} of ${results.length}`);
-
                     }
+                    await knex_new('combined_roster_individuals').insert(results);
+
                 }
                 console.log('Completed Combined Roster Individuals')
                 resolve(true);
@@ -793,16 +836,17 @@ async function migrate_combined_rosters() {
                             table.integer('organisation_id').references('id').inTable('origin.organisation_account')
                             table.string('team_name')
                         })
+                    const i_array = [];
                     for (let i = 0; i < results.length; i++) {
                         // find the org account;
-                        const k = await knex_new.from('organisation_account').select('*').where('sub_domain', '=', results[i].sub_domain);
+                        const k = find_org_id(results[i].sub_domain);
                         const n = results[i];
                         delete n.sub_domain;
                         n.organisation_id = k[0].id
-                        await knex_new('combined_rosters').insert(n);
+                        i_array.push(n);
                         console.log(`Completed ${i + 1} of ${results.length}`);
-
                     }
+                    await knex_new('combined_rosters').insert(i_array);
                 }
                 console.log('Completed Combined Roster')
                 resolve(true);
@@ -829,16 +873,17 @@ async function migrate_blogs() {
                             table.boolean('featured')
                             table.integer('organisation_id').references('id').inTable('origin.organisation_account')
                         })
+                    const i_array = [];
                     for (let i = 0; i < results.length; i++) {
                         // find the org account;
-                        const k = await knex_new.from('organisation_account').select('*').where('sub_domain', '=', results[i].organisation);
+                        const k = find_org_id(results[i].organisation);
                         const n = results[i];
                         delete n.organisation;
                         n.organisation_id = k[0].id
-                        await knex_new('blogs').insert(n);
+                        i_array.push(n);
                         console.log(`Completed ${i + 1} of ${results.length}`);
-
                     }
+                    await knex_new('blogs').insert(i_array);
                 }
                 console.log('Completed Blogs')
                 resolve(true);
@@ -879,12 +924,14 @@ async function migrate_orgs() {
                             table.string('twitter_link');
                             table.string('youtube_link')
                         })
-                    for (let i = 0; i < results.length; i++) {
-                        const n = results[i];
-                        await knex_new('organisation_account').insert(n);
-                        console.log(`Completed ${i + 1} of ${results.length}`);
+                    const insert_array = [];
+                    await knex_new('organisation_account').insert(results);
+                    // for (let i = 0; i < results.length; i++) {
+                    //     const n = results[i];
+                    //     knex_new('organisation_account').insert(n);
+                    //     console.log(`Completed ${i + 1} of ${results.length}`);
 
-                    }
+                    // }
                 }
                 console.log('Completed Organisations')
                 resolve(true);
@@ -892,4 +939,13 @@ async function migrate_orgs() {
         });
     })
 
+}
+
+async function grab_new_orgs() {
+    return new Promise((resolve) => {
+        knex_new.from('organisation_account').select('*').then(async results => {
+            organisation_array = results;
+            resolve(true);
+        });
+    })
 }

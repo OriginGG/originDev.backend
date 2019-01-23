@@ -21,7 +21,7 @@ function execute_sql(fname, knex) {
 exports.up = function (knex, Promise) {
     console.log('new sql functions - begin');
     return new Promise(async (resolve) => {
-        for (let i = 1; i < 43; i++) {
+        for (let i = 1; i < 44; i++) {
             await execute_sql(`${i}_origin_schema.sql`, knex);
         }
         resolve(true);
