@@ -613,7 +613,7 @@ async function migrate_users() {
                             table.boolean('admin_user')
                             table.boolean('subscribed')
                             table.boolean('authenticated')
-                            table.string('email')
+                            table.string('email').notNull().unique()
                             table.string('password_hash')
                             table.string('first_name')
                             table.string('last_name')

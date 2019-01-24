@@ -23,7 +23,6 @@ class StripeController {
             let customer_id_token = null;
             if (exists.length === 0) {
                 // does customer already exist?
-            
                 const cust = await stripe.customers.create({
                     email: user[0].email,
                     description: `Customer - ${user[0].email}`,

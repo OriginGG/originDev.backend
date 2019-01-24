@@ -1,4 +1,6 @@
 #!/bin/sh
+ECHO Disconnencting any dangling users
+sh ./disconnect_users_new_org.sh
 ECHO Dropping and creating new organisation migrate DB.
 sh ./drop_new_org_db.sh
 ECHO Creating tables and schema
