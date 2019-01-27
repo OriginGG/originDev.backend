@@ -58,7 +58,6 @@ class StripeController {
     }
     async cancel_subscription({ response, request }) {
         const b = request.all();
-        debugger;
         const { customer } = b.object;
         const exists = await Database.from('stripe_customers').where('customer_id_token', customer)
         if (exists.length > 0) {
