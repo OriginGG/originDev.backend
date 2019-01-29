@@ -1,0 +1,1 @@
+return 301 https://origin.gg$request_uri;

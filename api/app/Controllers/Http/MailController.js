@@ -45,7 +45,7 @@ class MailController {
         } 
         const payload = Buffer.from(JSON.stringify(data), 'utf8').toString('hex');
         const url = `${host}/ind_invite?ipl=${payload}`;
-        await Mail.send('emails.ind_invite', { organization_url: url, organisation_id: data.organisation_id, email: data.email }, (message) => {
+        await Mail.send('emails.ind_invite', { organization_url: url, organisation: data.organisation_name, email: data.email }, (message) => {
             message
                 .to(data.email)
                 .from('admin@origin.gg')

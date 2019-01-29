@@ -166,7 +166,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - /etc/nginx/vhost.d
+      - ~/applications/vhost:/etc/nginx/vhost.d
       - /usr/share/nginx/html
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - ~/applications/graphql/my_proxy.conf:/etc/nginx/conf.d/my_proxy.conf

@@ -1,7 +1,7 @@
 #!/bin/sh
 rsync -avz -e "ssh -i stefan.pem" --exclude 'node_modules' ./graphql ubuntu@35.168.193.181:~/applications
 rsync -avz -e "ssh -i stefan.pem" ./docker-compose.yml ubuntu@35.168.193.181:~/applications
-rsync -avz -e "ssh -i stefan.pem" ./graphql/CSR ubuntu@35.168.193.181:~/applications
+rsync -avz -e "ssh -i stefan.pem" ./graphql/vhost ubuntu@35.168.193.181:~/applications
 
 rsync -avz -e "ssh -i stefan.pem" --exclude 'node_modules' ./api ubuntu@35.168.193.181:~/applications/api_dev
 rsync -avz -e "ssh -i stefan.pem" --exclude 'node_modules' ./api ubuntu@35.168.193.181:~/applications/api_prod
