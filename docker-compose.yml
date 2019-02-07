@@ -128,6 +128,22 @@ services:
     ports:
       - "3010:80"
     command: "npm run start"
+  emailmicro_prod:
+    build:
+      context: ./api_emailmicro
+      dockerfile: ./Dockerfile
+    network_mode: bridge
+    container_name: api-emailmicroservice-container
+    environment:
+      - VIRTUAL_HOST=emailservice.originapi.com
+      - HTTPS_METHOD=noredirect
+      - NODE_ENV=production
+      - PROD=true
+      - LETSENCRYPT_HOST=emailservice.originapi.com
+      - LETSENCRYPT_EMAIL=stefan.walker@gmail.com
+    ports:
+      - "3011:80"
+    command: "npm run start"
   nginx_admin:
     build:
       context: ./graphql
