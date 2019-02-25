@@ -13,9 +13,6 @@ rsync -avz -e "ssh -i stefan.pem" ../social_aggregation/Dockerfile ubuntu@35.168
 rsync -avz -e "ssh -i stefan.pem" ./graphql/Dockerfile.api.dev ubuntu@35.168.193.181:~/applications/api_dev
 rsync -avz -e "ssh -i stefan.pem" ./graphql/Dockerfile.api.prod ubuntu@35.168.193.181:~/applications/api_prod
 
-rsync -avz -e "ssh -i stefan.pem" --exclude 'node_modules' ../emailmicroservice/mailApi ubuntu@35.168.193.181:~/applications/api_emailmicro
-rsync -avz -e "ssh -i stefan.pem" ../emailmicroservice/mailApi/.env.production ubuntu@35.168.193.181:~/applications/api_emailmicro/.env
-rsync -avz -e "ssh -i stefan.pem" ../emailmicroservice/Dockerfile ubuntu@35.168.193.181:~/applications/api_emailmicro/Dockerfile
 
 
 

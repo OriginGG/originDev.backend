@@ -82,7 +82,7 @@ class DomainController {
             let fnd = false;
             for (let a in record) {
                 const el = _.find(record[a], (o) => {
-                    return o.indexOf('origin-token') > -1;
+                    return (o.indexOf('origin-token') > -1) || (o.indexOf('origin_token') > -1);
                 })  
                 if (el) {
                     fnd = true;

@@ -7,6 +7,11 @@ services:
       dockerfile: Dockerfile.web_builder
     image: web-builder
     container_name: web-builder-container
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100k"
+        max-file: "3"
     ports:
       - "8081:8081"
     volumes:
@@ -28,6 +33,11 @@ services:
       - HTTPS_METHOD=noredirect
       - LETSENCRYPT_HOST=dev.graphql.originapi.com
       - LETSENCRYPT_EMAIL=stefan.walker@gmail.com
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100k"
+        max-file: "3"
     ports:
       - "5001:80"
     command: "npm run start"
@@ -44,6 +54,11 @@ services:
       - PROD=true
       - LETSENCRYPT_HOST=graphql.originapi.com
       - LETSENCRYPT_EMAIL=stefan.walker@gmail.com
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100k"
+        max-file: "3"
     ports:
       - "5000:80"
     command: "npm run start"  
@@ -58,6 +73,11 @@ services:
       - NODE_ENV=production
       - CERT_NAME=shared
       - PROD=true
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100k"
+        max-file: "3"
     ports:
       - "3001:3001"
     volumes:
@@ -75,6 +95,11 @@ services:
       - LETSENCRYPT_EMAIL=stefan.walker@gmail.com
       - NODE_ENV=production
       - PROD=true
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100k"
+        max-file: "3"
     ports:
       - "3002:3002"
     volumes:
@@ -93,6 +118,11 @@ services:
       - HTTPS_METHOD=noredirect
       - LETSENCRYPT_HOST=dev.api.originapi.com
       - LETSENCRYPT_EMAIL=stefan.walker@gmail.com
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100k"
+        max-file: "3"
     ports:
       - "3008:80"
     command: "npm run start"  
@@ -109,6 +139,11 @@ services:
       - PROD=true
       - LETSENCRYPT_HOST=api.originapi.com
       - LETSENCRYPT_EMAIL=stefan.walker@gmail.com
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100k"
+        max-file: "3"
     ports:
       - "3009:80"
     command: "npm run start-pm2"
@@ -125,6 +160,11 @@ services:
       - PROD=true
       - LETSENCRYPT_HOST=stats.originapi.com
       - LETSENCRYPT_EMAIL=stefan.walker@gmail.com
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100k"
+        max-file: "3"
     ports:
       - "3010:80"
     command: "npm run start"
@@ -141,6 +181,11 @@ services:
       - PROD=true
       - LETSENCRYPT_HOST=emailservice.originapi.com
       - LETSENCRYPT_EMAIL=stefan.walker@gmail.com
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100k"
+        max-file: "3"
     ports:
       - "3011:80"
     command: "npm run start"
@@ -154,6 +199,11 @@ services:
       - VIRTUAL_HOST=admin.originapi.com,www.admin.originapi.com
       - NODE_ENV=production
       - PROD=false
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100k"
+        max-file: "3"
     ports:
       - "3003:3003"
     volumes:
@@ -168,6 +218,11 @@ services:
       - VIRTUAL_HOST=admin.origin.gg,www.admin.origin.gg
       - NODE_ENV=production
       - PROD=false
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100k"
+        max-file: "3"
     ports:
       - "3004:3004"
     volumes:
@@ -178,6 +233,11 @@ services:
     container_name: nginx-proxy-container
     environment:
       - DEFAULT_HOST=origin.gg
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100k"
+        max-file: "3"
     ports:
       - "80:80"
       - "443:443"
@@ -195,6 +255,11 @@ services:
       - "nginx-proxy"
   jenkins:
     image: jenkins/jenkins:lts
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100k"
+        max-file: "3"
     ports:
       - "8100:8100"
       - "50000:50000"
