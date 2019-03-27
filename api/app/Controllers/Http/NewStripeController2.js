@@ -86,16 +86,43 @@ class StripeController {
 	}
 	async cancel_subscription({ response, request }) {
 		const b = request.all();
-		const { customer } = b.object;
-		const c = stripe.customers.retrieve(
-			customer
-		);
-		const user = await Database.from('users').where('id', c.metadata.userId);
-		if (user.length > 0) {
-			await Database.table('users').where('id', user[0].id).update('subscribed', false);
-			response.json({ status: 'subscription_cancelled' });
-		} else {
-			response.json({ status: 'customer found, but no associated user!' });
+		const { customer } = b.data.object;
+		try {
+			const c = await stripe.customers.retrieve(
+				customer
+			);
+			const user = await Database.from('users').where('id', c.metadata.userId);
+			if (user.length > 0) {
+				await Database.table('users').where('id', user[0].id).update('subscribed', false);
+				response.json({ status: 'subscription_cancelled' });
+			} else {
+				response.json({ status: 'customer found, but no associated user!' });
+			}
+		} catch (err) {
+			response.json({status: 'error', error: 'cannot find customer or subscription'})
+		}
+	}
+	async trial_expired({ response, request }) {
+		const b = request.all();
+		const { customer } = b.data.object;
+		try {
+			const c = await stripe.customers.retrieve(
+				customer
+			);
+			debugger;
+			const user = await Database.from('users').where('id', c.metadata.userId);
+			if (user.length > 0) {
+				if (!c.default_source) {
+					await Database.table('users').where('id', user[0].id).update('subscribed', false);
+					response.json({ status: 'trial endded - subscription_cancelled' });
+				} else {
+					response.json({ status: 'trial ended -  but paid customer' });
+				}
+			} else {
+				response.json({ status: 'customer found, but no associated user!' });
+			}
+		} catch (err) {
+			response.json({ status: 'error', error: 'cannot find customer or subscription' })
 		}
 	}
 }
