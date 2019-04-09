@@ -37,6 +37,11 @@ class StripeController {
 			response.json({ status: 'error', code: err.code });
 		}
 	}
+	async retrieve_coupon({ request, response }) {
+		const bd = request.all();
+		const cp = await stripe.coupons.retrieve(bd.coupon_id);
+		response.json(cp);
+	}
 	async retrieve_customer({ response, request }) {
 		const bd = request.all();
 		const exists = await stripe.customers.list({ limit: 1, email: bd.email });
@@ -53,9 +58,11 @@ class StripeController {
 			// create a customer first.
 			const plan = bd.plan;
 			const trial_period_days = bd.trial_period_days;
+			const coupon_id = bd.coupon_id;
 			const sub = await stripe.subscriptions.create({
 				customer: customer_id,
 				trial_period_days,
+				coupon: coupon_id,
 				items: [
 					{
 						plan
