@@ -39,8 +39,12 @@ class StripeController {
 	}
 	async retrieve_coupon({ request, response }) {
 		const bd = request.all();
-		const cp = await stripe.coupons.retrieve(bd.coupon_id);
-		response.json(cp);
+		try {
+			const cp = await stripe.coupons.retrieve(bd.coupon_id);
+			response.json(cp);
+		} catch (e) {
+			response.json({error: e.code});
+		}
 	}
 	async retrieve_customer({ response, request }) {
 		const bd = request.all();

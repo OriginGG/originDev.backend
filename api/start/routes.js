@@ -63,7 +63,6 @@ Route.post('stripe/new/create_subscription', 'NewStripeController.create_subscri
 Route.post('stripe/new/cancel_subscription', 'NewStripeController.cancel_subscription')
 Route.get('stripe/new/retrieve_plans', 'NewStripeController.retrieve_plans')
 Route.get('stripe/new/create_customer', 'NewStripeController.create_customer')
-
 Route.post('stripe/new2/create_subscription', 'NewStripeController2.create_subscription')
 Route.post('stripe/new2/cancel_subscription', 'NewStripeController2.cancel_subscription')
 Route.post('stripe/new2/trial_expired', 'NewStripeController2.trial_expired')
