@@ -3,7 +3,6 @@ const Env = use('Env')
 const stripe = require("stripe")(Env.get('APP_STRIPE_SK_KEY'));
 const Database = use('Database');
 
-
 class StripeController {
     async retrieve_plans({ response, request }) {
         const p = await stripe.plans.list()
@@ -13,7 +12,9 @@ class StripeController {
         try {
             const bd = request.all();
             // create a customer first.
+            console.log(bd)
             const customer_id = bd.customer_id;
+            console.log(customer_id);
             const exists = await Database.from('stripe_customers').where('user_id', customer_id)
             const user = await Database.from('users').where('id', customer_id)
             let db_cust_id = 0;
@@ -44,12 +45,13 @@ class StripeController {
                 customer: customer_id_token,
                 items: [
                     {
-                        plan: Env.get('APP_STRIPE_PLAN_ID'),
+                        plan: bd.plan.id,
                     },
                 ]
             });
             response.json({ status: "subscribed", sub });
         } catch (err) {
+            // console.log(err);
             response.json({ status: "error", code: err.code });
         }
     }
