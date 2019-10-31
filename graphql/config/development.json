@@ -1,6 +1,6 @@
 {
     "postgraphile": {
-        "host": "postgres://origin_postgraphql:allegro1234@origin-production-small.cjdraitfnk0j.us-east-1.rds.amazonaws.com:5432/originGGNew?ssl=1",
+        "host": "postgres://origin_postgraphql:allegro1234@origin-small-dev.cjdraitfnk0j.us-east-1.rds.amazonaws.com:5432/originGG?ssl=1",
         "default_role": "origin_anonymous",
         "schema_name": "origin",
         "jwt_secret": "bbo9Q4jsIkfQ1gkpolQAKLXO4WZ-s3SEcvo3gHwfxCEM_IBSisDWzlwcmDKjVfH0",
